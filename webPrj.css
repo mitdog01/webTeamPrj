@@ -90,8 +90,52 @@ input { display: none;}
 
 #color-choose {
 	position: absolute;
-	top: 115px;
-	left: 270px;
+	top: 100px;
+	left: 290px;
+	width: 150px;
+	height: 60px;
+	line-height: 60px;
+	background-color: wheat;
+	border-radius: 30px;
+}
+
+#color-choose label {
+	padding-left: 10px;
+}
+
+input[type="color"] {
+	display: block;
+	margin-left: 10px;
+	margin-bottom: 5px;
+}
+input[type="color" i] {
+	border-radius: 50%;
+	inline-size: 30px;
+	block-size: 30px;
+
+	/* Can set padding between outer circle and color swatch for Firefox here;
+     * it doesn't support a color-swarch-wrapper pseudoclass
+     */
+	padding: 3px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(153, 153, 153);
+	opacity: 1;
+}
+
+input[type="color" i]::-webkit-color-swatch-wrapper {
+	padding: 1px;
+}
+
+/* Affects the inner circle, i.e. the current color selection */
+input[type="color" i]::-webkit-color-swatch {
+	border-radius: 50%;
+}
+
+#colorpicker {
+	position: absolute;
+	left: 90px;
+	top: 15px;
 }
 
 .setting-btn {
