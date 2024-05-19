@@ -2,7 +2,15 @@ $(window).on("load", function () {
 	
 	////////////      MAIN-MENU EVENT        ///////////
 
-	// (게임 메인 메뉴 관련 이벤트 코드)
+	$('#main-menu-start-btn').click(function () {	// initialize start button
+		$('#main-menu').hide();
+		$('#ingame').show();
+	})
+
+	$('#main-menu-setting-btn').click(function () {
+		$('#main-menu').hide();
+		$('#setting-page').show();
+	});
 
 	////////////////////////////////////////////////////
 
@@ -42,6 +50,11 @@ $(window).on("load", function () {
 	}, function () {
 		$(this).attr('src', 'stageMainBtn_default.png');
 	});
+
+	$("#stage-menu-mainbtn > img").click(function() {
+		$('#stage-menu').hide();
+		$('#main-menu').show();
+	})
 
 	////////////////////////////////////////////////////
 
