@@ -11,6 +11,7 @@ body {
 li { list-style: none; }
 a { text-decoration: none; }
 img { border: 0; }
+input { display: none;}
 
 
 
@@ -38,9 +39,74 @@ img { border: 0; }
 	display: none;
 }
 
+#config-box {
+	position: absolute;
+	height: 630px;
+	width: 700px;
+	border: 8px solid wheat;
+	left: 105px;
+	top: 170px;
+}
 
+#mute-btn {
+	height: 80px;
+	width: 80px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	background-color: aquamarine;
+}
 
+.music-row {
+	width: 100%;
+	position: absolute;
+	top: 120px;
+	height: 70px;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	padding: 5px;
+}
 
+.music-label {
+	width: 200px;
+	height: 70px;
+	line-height: 70px;
+	border-radius: 10px;
+	background-color: aquamarine;
+	display: block;
+}
+
+#color-container {
+	position: absolute;
+	width: 100%;
+	top: 270px;
+}
+
+#color {
+	position: absolute;
+	left: 120px;
+}
+
+#color-choose {
+	position: absolute;
+	top: 115px;
+	left: 270px;
+}
+
+.setting-btn {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	width: 110px;
+	height: 60px;
+	border-radius: 10px;
+}
+
+#apply-btn {
+	position: absolute;
+	right: 110px;
+}
 
 /******************************************************************/
 /********************** stage-menu related ************************/
