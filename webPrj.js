@@ -38,6 +38,12 @@ $(window).on("load", function () {
 		init_stage();
 	});
 
+	$("#stage-menu-mainbtn > img").hover(function () {
+		$(this).attr('src', 'stageMainBtn_hover.png');
+	}, function () {
+		$(this).attr('src', 'stageMainBtn_default.png');
+	});
+
 	////////////////////////////////////////////////////
 
 	////////////      GAME INITIALIZE       ////////////
