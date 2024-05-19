@@ -96,6 +96,11 @@ $(window).on("load", function () {
 
 	// (게임 점수 출력시 이벤트 처리)
 
+	$("#score-main-btn").click(function () {
+		$("#ingame").hide();
+		// main-menu 불러오기
+	});
+
 	////////////////////////////////////////////////////
 
 
@@ -201,7 +206,6 @@ function init_stage() {
 
 	// score init
 	start_time = Number(new Date());
-	score_cum = 0;
 	pause_cum = 0;
 
 	switch (stage_level) {
@@ -218,8 +222,9 @@ function init_stage() {
 				// 점수창
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000) - pause_cum;
+
 				$("#score").slideDown('slow');
-				$("#score-result").html(`클리어 시간 : ${clear_time} 초<br>얻은 치즈수: ${score_cum}`);
+				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
 
 				setTimeout(function () {
 					$("#score").fadeOut('fast');
@@ -246,8 +251,10 @@ function init_stage() {
 				// 2단계 클리어 처리
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000);
+
+
 				$("#score").slideDown('slow');
-				$("#score-result").html(`클리어 시간 : ${clear_time} 초<br>얻은 치즈수: ${score_cum}`);
+				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
 
 				setTimeout(function () {
 					$("#score").fadeOut('fast');
@@ -274,7 +281,7 @@ function init_stage() {
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000);
 				$("#score").slideDown('slow');
-				$("#score-result").html(`클리어 시간 : ${clear_time} 초<br>얻은 치즈수: ${score_cum}`);
+				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
 
 				setTimeout(function () {
 					// stage_level = 1;
@@ -526,3 +533,17 @@ function check_crash_blocks_lr() {
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////
+
+// 점수 계산하는 함수
+function getScore() {
+	var sum = 0;
+
+	for(i=0;i<block.length;i++) {
+		for(j=0;j<block[i].length;j++) {
+			if(block[i][j]==0)
+				sum++;
+		}
+	}
+
+	return sum;	
+}
