@@ -9,7 +9,6 @@ $(window).on("load", function () {
 	////////////      STAGE-MENU EVENT      ////////////
 
 	setInterval(function () {
-		console.log($("#stage-menu-title > img").attr('src'));
 		if($("#stage-menu-title > img").attr('src') == 'stageTitle1.png')
 			$("#stage-menu-title > img").attr('src','stageTitle2.png')
 		else
@@ -60,7 +59,14 @@ $(window).on("load", function () {
 	// 방향키 입력 감지
 	$(document).keydown(function (e) {
 		if(e.keyCode == 27) {
+			if(!pauseFlag)
+				pause_start = Number(new Date());
+			else {
+				pause_end = Number(new Date());
+				pause_cum += Math.floor((pause_end - pause_start)/1000);
+			}
 			pauseFlag = !pauseFlag;
+			
 		}
 		else
 			keyState[e.keyCode] = true;
@@ -156,6 +162,9 @@ var holeX;
 var holeWidth = 90;
 
 // score info
+var pause_start;
+var pause_end;
+var pause_cum = 0;
 var start_time;
 var end_time;
 var clear_time;
@@ -192,7 +201,7 @@ function init_stage() {
 
 	// score init
 	start_time = Number(new Date());
-	score_cum = 0;
+	pause_cum = 0;
 
 	switch (stage_level) {
 	case 1:
@@ -207,13 +216,14 @@ function init_stage() {
 
 				// 점수창
 				curr_time = Number(new Date());
-				clear_time = Math.floor((curr_time - start_time)/1000);
+				clear_time = Math.floor((curr_time - start_time)/1000) - pause_cum;
 				$("#score").slideDown('slow');
-				$("#score").text(`클리어 시간 : ${clear_time} 초`);
+				$("#score").text(`clear time : ${clear_time} sec`);
 
 				setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 2;
+					pauseFlag = false;
 					init_stage();
 				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
@@ -236,13 +246,13 @@ function init_stage() {
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000);
 				$("#score").slideDown('slow');
-				$("#score").text(`클리어 시간 : ${clear_time} 초`);
+				$("#score").text(`clear time : ${clear_time} sec`);
 
 				setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 3;
+					pauseFlag = false;
 					init_stage();
-
 				}, 2000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
 				clearInterval(ball);
@@ -263,13 +273,14 @@ function init_stage() {
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000);
 				$("#score").slideDown('slow');
-				$("#score").text(`클리어 시간 : ${clear_time} 초`);
+				$("#score").text(`clear time : ${clear_time} s`);
 
 				setTimeout(function () {
 					// stage_level = 1;
 					$("#score").fadeOut('fast');
 					$("#ingame").hide();
 					$("#stage-menu").show();
+					pauseFlag = false;
 				}, 2000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
 				clearInterval(ball);
