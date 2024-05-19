@@ -201,6 +201,7 @@ function init_stage() {
 
 	// score init
 	start_time = Number(new Date());
+	score_cum = 0;
 	pause_cum = 0;
 
 	switch (stage_level) {
@@ -218,7 +219,7 @@ function init_stage() {
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000) - pause_cum;
 				$("#score").slideDown('slow');
-				$("#score").text(`clear time : ${clear_time} sec`);
+				$("#score-result").html(`클리어 시간 : ${clear_time} 초<br>얻은 치즈수: ${score_cum}`);
 
 				setTimeout(function () {
 					$("#score").fadeOut('fast');
@@ -246,7 +247,7 @@ function init_stage() {
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000);
 				$("#score").slideDown('slow');
-				$("#score").text(`clear time : ${clear_time} sec`);
+				$("#score-result").html(`클리어 시간 : ${clear_time} 초<br>얻은 치즈수: ${score_cum}`);
 
 				setTimeout(function () {
 					$("#score").fadeOut('fast');
@@ -273,7 +274,7 @@ function init_stage() {
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000);
 				$("#score").slideDown('slow');
-				$("#score").text(`clear time : ${clear_time} s`);
+				$("#score-result").html(`클리어 시간 : ${clear_time} 초<br>얻은 치즈수: ${score_cum}`);
 
 				setTimeout(function () {
 					// stage_level = 1;
