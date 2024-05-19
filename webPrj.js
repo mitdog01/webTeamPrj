@@ -9,7 +9,7 @@ $(window).on("load", function () {
 
 	$('#main-menu-setting-btn').click(function () {
 		$('#main-menu').hide();
-		$('#setting-popup').show();
+		$('#setting-page').show();
 	});
 
 	////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ $(window).on("load", function () {
 
 	$("#stage-menu-mainbtn > img").click(function() {
 		$('#stage-menu').hide();
-		$('#setting-popup').show();
+		$('#main-menu').show();
 	})
 
 	////////////////////////////////////////////////////
