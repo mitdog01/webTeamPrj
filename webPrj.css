@@ -1,0 +1,164 @@
+/* 초기화 코드 */
+* { margin: 0; padding: 0; }
+body { 
+	font-family: 'Times New Roman', serif; 
+	width: 1440px;
+	height: 900px;
+	position: relative;
+	background-color: gray;
+	margin: 0 auto;
+}
+li { list-style: none; }
+a { text-decoration: none; }
+img { border: 0; }
+
+
+
+/************************* setting related ************************/
+/*
+#setting-popup {
+	position: absolute;
+	height: 400px;
+	width: 600px;
+	top: 150px;
+	left: 415px;
+	background-color: gray;
+	z-index: 1;
+	border-radius: 15px;
+}
+*/
+
+
+
+
+
+
+
+/******************************************************************/
+/********************** stage-menu related ************************/
+#stage-menu {
+	width: 910px;
+	height: 900px;
+	background-image: url('brickBackground.jpg');
+	position: absolute;
+	left: 256px;
+	right: 256px;
+}
+
+#stage-menu-title {
+	position: absolute;
+	left: 227px;
+	top: 110px;
+	width: 455px;
+	height: 110px;
+	display: block;
+	border: 10px solid #C27F30;
+	padding-top: 20px;
+	text-align: center;
+	border-radius: 15px;
+	background-color: gray;
+}
+
+#stage1 {
+	position: absolute;
+	left: 71px;
+	top: 350px;
+	display: block;
+	width: 230px;
+	height: 200px;
+	border: 10px solid #C27F30;
+	background-image: url('stage1.gif');
+	background-size: cover;
+}
+
+#stage2 {
+	position: absolute;
+	left: 340px;
+	top: 350px;
+	display: block;
+	width: 230px;
+	height: 200px;
+	border: 10px solid #C27F30;
+	background-image: url('stage2.gif');
+	background-size: cover;
+}
+
+#stage3 {
+	position: absolute;
+	left: 609px;
+	top: 350px;
+	display: block;
+	width: 230px;
+	height: 200px;
+	border: 10px solid #C27F30;
+	background-image: url('stage3.gif');
+	background-size: cover;
+}
+
+#stage-menu-mainbtn {
+	position: absolute;
+	left: 330px;
+	top: 620px;
+	width: 250px;
+	height: 100px;
+	border-radius: 10px;
+	border: 1px solid black;
+}
+
+
+
+/******************************************************************/
+/************************* stage related **************************/
+#ingame {
+	display: none;
+}
+
+#stage-left {
+	position: absolute;
+	left: 60px;
+	width: 200px;
+	height: 900px;
+	background-color: white;
+}
+
+#stage-right {
+	position: absolute;
+	right: 60px;
+	width: 200px;
+	height: 900px;
+	background-color: white;
+}
+
+#stage-wrapper {
+	width: 910px;
+	height: 900px;
+	top: 0;
+	left: 265px;
+	right: 265px;
+	position: absolute;
+	background-image: url('brickBackground.jpg');
+}
+
+#stage {
+	text-align: center;
+	margin: 100px auto 0 auto;
+	height: 500px;
+}
+
+canvas {
+	display: inline;
+	background-color: white;
+}
+
+#score {
+	display: none;
+	position: absolute;
+	height: 400px;
+	width: 600px;
+	top: 150px;
+	left: 155px;
+	background-color: gray;
+	z-index: 1;
+	border-radius: 15px;
+}
+/******************************************************************/
