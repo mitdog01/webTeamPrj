@@ -43,6 +43,11 @@ $(window).on("load", function () {
 		$(this).attr('src', 'stageMainBtn_default.png');
 	});
 
+	$("#stage-menu-mainbtn > img").click(function() {
+		$('#stage-menu').hide();
+		$('#setting-popup').show();
+	})
+
 	////////////////////////////////////////////////////
 
 	////////////      GAME INITIALIZE       ////////////
