@@ -1,3 +1,6 @@
+let ballColor = "#1111ff";
+let backgroundMusic = "music1.mp3";
+
 $(window).on("load", function () {
 	
 	////////////      MAIN-MENU EVENT        ///////////
@@ -117,8 +120,19 @@ $(window).on("load", function () {
 
 	//////////      GAME SETTING EVENT       ///////////
 
-	// (게임 환경 설정 관련 코드 작성)
-	// (인게임 환경 설정은 재시작도 있어야 함)
+	$('#colorpicker').attr("value", ballColor);	// initialize with given color
+
+	$('#apply-btn').click(function () {  // Applying music setting(Except muting) & ballColor Setting
+		if ($('#music1').is(':checked')) {
+			backgroundMusic = "music1.mp3"
+		} else if ($('#music2').is(':checked')) {
+			backgroundMusic = "music2.mp3";
+		}
+		alert(backgroundMusic); // for debugging (should be deleted)
+
+		ballColor = document.getElementById("colorpicker").value;
+		alert(ballColor);   // for debugging
+	})
 
 	////////////////////////////////////////////////////
 
