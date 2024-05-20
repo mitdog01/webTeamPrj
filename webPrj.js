@@ -1,4 +1,5 @@
 let ballColor = "#1111ff";
+let backgroundMusic = "music1.mp3";
 
 $(window).on("load", function () {
 	
