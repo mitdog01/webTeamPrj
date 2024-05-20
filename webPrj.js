@@ -96,9 +96,9 @@ $(window).on("load", function () {
 
 	// (게임 점수 출력시 이벤트 처리)
 
-	$("#score-main-btn").click(function () {
+	$("#score-stage-btn").click(function () {
 		$("#ingame").hide();
-		// main-menu 불러오기
+		$("#stage-menu").show();
 	});
 
 	////////////////////////////////////////////////////

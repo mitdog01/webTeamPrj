@@ -203,7 +203,7 @@ canvas {
 	border: 4px solid #E9AB20;
 }
 
-#score-main-btn {
+#score-stage-btn {
 	position: absolute;
 	background-color: #FFDEAD;
 	color: #B8860B;
@@ -219,7 +219,7 @@ canvas {
 	border-radius: 15px;
 }
 
-#score-main-btn:hover {
+#score-stage-btn:hover {
 	color: white;
 	border-color: #FFDEAD;
 	background-color: #E9AB20;
