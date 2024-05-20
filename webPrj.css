@@ -66,7 +66,6 @@ input { display: none;}
 }
 
 /************************* setting related ************************/
-/*
 #setting-popup {
 	position: absolute;
 	height: 400px;
@@ -76,8 +75,8 @@ input { display: none;}
 	background-color: gray;
 	z-index: 1;
 	border-radius: 15px;
+	display: none;
 }
-*/
 
 #setting-page {
 	width: 910px;

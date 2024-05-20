@@ -146,19 +146,19 @@ $(window).on("load", function () {
 	drawBar();
 
 	// 방향키 입력 감지
-	$(document).keydown(function (e) {
+	$(document).keydown(function (e) {	// 단순 pop-up만 했는데 따로 구현 사항이 있는지?
 		if(e.keyCode == 27) {
-			if(!pauseFlag)
+			if(!pauseFlag) {
 				// 게임 일시정지 시간 측정 시작
 				pause_start = Number(new Date());
 				// 팝업 창 열리는 처리
+				$('#setting-popup').show();
 
 
-
-
+			}
 			else {
 				// 팝업 창 닫히는 처리
-
+				$('#setting-popup').hide();
 
 
 
@@ -262,6 +262,9 @@ $(window).on("load", function () {
 		y += dy;
 	}
 	var ball = setInterval(draw, 10);
+
+	////////////////////////////////////////////////////
+	///////////       setting popup          ///////////
 
 	////////////////////////////////////////////////////
 
