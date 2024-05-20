@@ -2,7 +2,15 @@ $(window).on("load", function () {
 	
 	////////////      MAIN-MENU EVENT        ///////////
 
-	// (게임 메인 메뉴 관련 이벤트 코드)
+	$('#main-menu-start-btn').click(function () {	// initialize start button
+		$('#main-menu').hide();
+		$('#ingame').show();
+	})
+
+	$('#main-menu-setting-btn').click(function () {
+		$('#main-menu').hide();
+		$('#setting-page').show();
+	});
 
 	////////////////////////////////////////////////////
 
@@ -20,6 +28,13 @@ $(window).on("load", function () {
 		$("#ingame").show();
 		$("#stage-menu").hide();
 		stage_level = 1;
+
+		// 스테이지 1 시작 전에 스토리 출력
+
+
+
+
+
 		init_stage();
 	});
 
@@ -43,6 +58,11 @@ $(window).on("load", function () {
 		$(this).attr('src', 'stageMainBtn_default.png');
 	});
 
+	$("#stage-menu-mainbtn > img").click(function() {
+		$('#stage-menu').hide();
+		$('#main-menu').show();
+	})
+
 	////////////////////////////////////////////////////
 
 	////////////      GAME INITIALIZE       ////////////
@@ -60,13 +80,24 @@ $(window).on("load", function () {
 	$(document).keydown(function (e) {
 		if(e.keyCode == 27) {
 			if(!pauseFlag)
+				// 게임 일시정지 시간 측정 시작
 				pause_start = Number(new Date());
+				// 팝업 창 열리는 처리
+
+
+
+
 			else {
+				// 팝업 창 닫히는 처리
+
+
+
+
+				// 멈추는 거 풀 때 일시정지 시간 측정 종료
 				pause_end = Number(new Date());
 				pause_cum += Math.floor((pause_end - pause_start)/1000);
 			}
 			pauseFlag = !pauseFlag;
-			
 		}
 		else
 			keyState[e.keyCode] = true;
@@ -76,9 +107,8 @@ $(window).on("load", function () {
 			keyState[e.keyCode] = false;
 	});	
 
-	// 방향키 움직임 딜레이 없애기 위함
-	// bar = setInterval(barController, frameRate);
-	// init_stage();
+	//
+
 
 	// 출구 위치 랜덤 생성은
 	// 초기화 될 때마다 함께 되도록
@@ -143,8 +173,8 @@ bar_jerry.src = 'barJerry.png';
 // ball info
 var ball;
 var ballRad = 5;
-var dx = 2;
-var dy = 2;
+var dx = 1;
+var dy = 1;
 var ballX = 300;
 var ballY = 300;
 
@@ -186,8 +216,8 @@ function init_stage() {
 	// ball init
 	ballX = 300;
 	ballY = 300;
-	dx = 2;
-	dy = 2;
+	dx = 1;
+	dy = 1;
 
 	// block init
 	block = [
@@ -210,7 +240,7 @@ function init_stage() {
 
 	switch (stage_level) {
 	case 1:
-		bar
+
 		ball = setInterval(function () {
 			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
 				clearInterval(ball);
@@ -218,13 +248,20 @@ function init_stage() {
 				// 1단계 클리어 처리
 				// 스토리 진행 후
 				// 점수창 출력
-
 				// 점수창
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000) - pause_cum;
-
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
+
+
+
+
+
+
+
+
+
 
 				setTimeout(function () {
 					$("#score").fadeOut('fast');
@@ -251,17 +288,24 @@ function init_stage() {
 				// 2단계 클리어 처리
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000);
-
-
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
+
+
+
+
+
+
+
+
+
 
 				setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 3;
 					pauseFlag = false;
 					init_stage();
-				}, 2000);
+				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
 				clearInterval(ball);
 				clearInterval(bar);
@@ -289,7 +333,10 @@ function init_stage() {
 					$("#ingame").hide();
 					$("#stage-menu").show();
 					pauseFlag = false;
-				}, 2000);
+				}, 5000);
+
+
+
 			} else if(ballY+ballRad >= ingame_canvas_height) {
 				clearInterval(ball);
 				clearInterval(bar);
@@ -329,6 +376,8 @@ function drawBall() {
 	frame.fillStyle = "black";
 	frame.arc(ballX, ballY, ballRad, 0, 2*Math.PI);
 	frame.fill();
+
+
 
 	// 맵벽 좌-우
 	if((ballX + dx <= ballRad && ballY + dy > ballRad) || (ballX + dx >= ingame_canvas_width-ballRad && ballY + dy > ballRad)) {
@@ -412,26 +461,22 @@ function check_crash_bar_co() {
 // 위의 경우
 function check_crash_bar() {
 	if(ballX >= barX && ballX <= barX+barWidth && ballY+ballRad >= barY && ballY+ballRad <= barY+3) {
-		console.log(0)
+
 		if(ballX <= barX + barWidth*(1/4)) {
-			console.log(1)
-			dx = -2;
-			dy = 2;
+			dx = -1;
+			dy = 1;
 		} 
 		else if(ballX >= barX + barWidth*(3/4)) {
-			console.log(2)
-			dx = 2;
-			dy = 2;
+			dx = 1;
+			dy = 1;
 		}
 		else if(ballX <= barX + barWidth*(1/2)) {
-			console.log(3)
-			dx = -1;
-			dy = 2;
+			dx = -0.5;
+			dy = 1;
 		}
 		else if(ballX <= barX + barWidth*(3/4)) {
-			console.log(4)
-			dx = 1;
-			dy = 2;
+			dx = 0.5;
+			dy = 1;
 		}
 		return 1;
 	}
