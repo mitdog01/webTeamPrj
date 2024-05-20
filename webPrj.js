@@ -205,6 +205,8 @@ $(window).on("load", function () {
 		}
 	});
 
+	$('#colorpicker').attr("value", ballColor);	// initialize with given color
+
 	$('#apply-btn').click(function () {  // Applying music setting(Except muting) & ballColor Setting
 		if ($('#music1').is(':checked')) {
 			backgroundMusic = "music1.mp3"
