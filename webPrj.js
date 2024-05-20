@@ -1,4 +1,5 @@
 let ballColor = "#1111ff";
+let bouncingBallColor = ballColor;
 let backgroundMusic = "music1.mp3";
 let audio = new Audio(backgroundMusic);
 audio.loop = true;
@@ -192,6 +193,9 @@ $(window).on("load", function () {
 	}
 
 	$('#colorpicker').attr("value", ballColor);	// initialize with given color
+	$('#colorpicker').on("input", function (e) {
+		bouncingBallColor = e.target.value;
+	})
 
 	if(audio.paused) {	// if music is not auto-played mute button should be active
 		$("#mute-input").attr("checked", true);
@@ -225,6 +229,39 @@ $(window).on("load", function () {
 		$('#setting-page').hide();
 		$('#main-menu').show();
 	})
+
+	let canvas = document.getElementById('myCanvas');
+	let context = canvas.getContext('2d');
+
+	var dx = 2;
+	var dy = 2;
+
+	var x = 100;
+	var y = 100;
+
+	function draw() {
+		context.clearRect(0, 0, 250, 250);
+		drawBall();
+	}
+
+	function drawBall() {
+		context.beginPath();
+		context.arc(x, y, 20, 0, 2.0 * Math.PI, true);
+		context.fillStyle = bouncingBallColor;
+		context.closePath();
+		context.fill();
+
+		if((y>=230 && x>0) || (y<=20 && x>0)) { // bottom, top
+			dy *= -1;
+		}
+		else if((y>0 && x>230) || (y>0 && x<20)) { // right. left
+			dx *= -1;
+		}
+
+		x += dx;
+		y += dy;
+	}
+	var ball = setInterval(draw, 10);
 
 	////////////////////////////////////////////////////
 

@@ -133,6 +133,11 @@ input { display: none;}
 	top: 270px;
 }
 
+#myCanvas {
+	background-color: lightgrey;
+	border: 1px dotted black;
+}
+
 #color {
 	position: absolute;
 	left: 120px;
@@ -163,9 +168,6 @@ input[type="color" i] {
 	inline-size: 30px;
 	block-size: 30px;
 
-	/* Can set padding between outer circle and color swatch for Firefox here;
-     * it doesn't support a color-swarch-wrapper pseudoclass
-     */
 	padding: 3px;
 	border-width: 1px;
 	border-style: solid;
