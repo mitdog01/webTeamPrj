@@ -1,8 +1,80 @@
+let ballColor = "#1111ff";
+let backgroundMusic = "music1.mp3";
+
 $(window).on("load", function () {
 	
 	////////////      MAIN-MENU EVENT        ///////////
 
-	// (게임 메인 메뉴 관련 이벤트 코드)
+	////////////////////////// 이미지 슬라이드쇼 관련 변수 및 함수 ///////////////////////////////
+	const images = [
+	    { src: 'd1.png', description: '화목했던 톰과 제리는 '},
+	    { src: 'd2.png', description: '어느 날 둘이 사소한 일로 다투게 되는데...' },
+	    { src: 'd3.png', description: '톰은 이내 제리에게 복수를 하기 위해서 계획을 세운다...!' },
+	    { src: 'd4.png', description: '제리는 그런줄도 모르고 본인이 좋아하는 치즈를 먹고만 있는데..' },
+	    { src: 'd5.png', description: '과연 톰은 어떤 계획과 계략으로 제리를 잡는데 성공할지 의문이다.' }
+	];
+	let currentIndex = -1;
+	let intervalId;
+
+	const imgElement = document.getElementById('scenario-image');
+	const animation = document.getElementById('slideshow-container')
+	const descriptionElement = document.getElementById('scenario-description');
+	const startButton = document.getElementById('main-menu-start-btn');
+	const stageMenu = document.getElementById('stage-menu');
+
+
+	// 메인 메뉴 시작 버튼 클릭 이벤트를 통합하여 수정
+	$(startButton).click(function () {
+	    $('#main-menu').hide(); // 메인 메뉴 숨김
+	    $(animation).show();
+	    startSlideshow();
+	});
+
+	function startSlideshow() {
+	    startButton.style.display = 'none'; // 시작 버튼 숨김
+	    imgElement.style.display = 'block';
+	    animation.style.display = 'block';
+	    descriptionElement.style.display = 'block';
+	    currentIndex=0;
+	    imgElement.src = images[currentIndex].src;
+	    updateDescription(images[currentIndex].description);
+	    intervalId = setInterval(() => {
+	        currentIndex++;
+	        if (currentIndex >= images.length) {
+	            clearInterval(intervalId);
+	            currentIndex = -1;
+	            imgElement.style.display= 'none';
+	            descriptionElement.textContent = ''; 
+	            descriptionElement.style.display = 'none';
+	            animation.style.display = 'none';
+	                startButton.style.display = 'block';
+
+	            // 슬라이드쇼 종료 후 stage-menu를 보여줌
+	            stageMenu.style.display = 'block';
+	            return;
+	        }
+
+	        imgElement.src = images[currentIndex].src;
+	        updateDescription(images[currentIndex].description);
+	    }, 4000); 
+	}
+
+	function updateDescription(description) {
+	    descriptionElement.textContent = ''; 
+	    let index = 0; 
+	    const interval = setInterval(() => {
+	        descriptionElement.textContent += description[index++]; 
+	        if (index >= description.length) {
+	            clearInterval(interval);
+	        }
+	    }, 100); 
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	
+	$('#main-menu-setting-btn').click(function () {
+		$('#main-menu').hide();
+		$('#setting-page').show();
+	});
 
 	////////////////////////////////////////////////////
 
@@ -20,6 +92,13 @@ $(window).on("load", function () {
 		$("#ingame").show();
 		$("#stage-menu").hide();
 		stage_level = 1;
+
+		// 스테이지 1 시작 전에 스토리 출력
+
+
+
+
+
 		init_stage();
 	});
 
@@ -43,6 +122,11 @@ $(window).on("load", function () {
 		$(this).attr('src', 'stageMainBtn_default.png');
 	});
 
+	$("#stage-menu-mainbtn > img").click(function() {
+		$('#stage-menu').hide();
+		$('#main-menu').show();
+	})
+
 	////////////////////////////////////////////////////
 
 	////////////      GAME INITIALIZE       ////////////
@@ -60,13 +144,24 @@ $(window).on("load", function () {
 	$(document).keydown(function (e) {
 		if(e.keyCode == 27) {
 			if(!pauseFlag)
+				// 게임 일시정지 시간 측정 시작
 				pause_start = Number(new Date());
+				// 팝업 창 열리는 처리
+
+
+
+
 			else {
+				// 팝업 창 닫히는 처리
+
+
+
+
+				// 멈추는 거 풀 때 일시정지 시간 측정 종료
 				pause_end = Number(new Date());
 				pause_cum += Math.floor((pause_end - pause_start)/1000);
 			}
 			pauseFlag = !pauseFlag;
-			
 		}
 		else
 			keyState[e.keyCode] = true;
@@ -76,9 +171,8 @@ $(window).on("load", function () {
 			keyState[e.keyCode] = false;
 	});	
 
-	// 방향키 움직임 딜레이 없애기 위함
-	// bar = setInterval(barController, frameRate);
-	// init_stage();
+	//
+
 
 	// 출구 위치 랜덤 생성은
 	// 초기화 될 때마다 함께 되도록
@@ -87,8 +181,19 @@ $(window).on("load", function () {
 
 	//////////      GAME SETTING EVENT       ///////////
 
-	// (게임 환경 설정 관련 코드 작성)
-	// (인게임 환경 설정은 재시작도 있어야 함)
+	$('#colorpicker').attr("value", ballColor);	// initialize with given color
+
+	$('#apply-btn').click(function () {  // Applying music setting(Except muting) & ballColor Setting
+		if ($('#music1').is(':checked')) {
+			backgroundMusic = "music1.mp3"
+		} else if ($('#music2').is(':checked')) {
+			backgroundMusic = "music2.mp3";
+		}
+		alert(backgroundMusic); // for debugging (should be deleted)
+
+		ballColor = document.getElementById("colorpicker").value;
+		alert(ballColor);   // for debugging
+	})
 
 	////////////////////////////////////////////////////
 
@@ -96,9 +201,12 @@ $(window).on("load", function () {
 
 	// (게임 점수 출력시 이벤트 처리)
 
-	$("#score-main-btn").click(function () {
+	$("#score-stage-btn").click(function () {
 		$("#ingame").hide();
-		// main-menu 불러오기
+		$("#score").hide();
+		pauseFlag = false;
+		clearTimeout(showNextStage);
+		$("#stage-menu").show();
 	});
 
 	////////////////////////////////////////////////////
@@ -121,6 +229,7 @@ function barController() {
 
 // stage info
 var stage_level = 1;
+var showNextStage;
 
 // pause info
 var pauseFlag = false;
@@ -143,8 +252,8 @@ bar_jerry.src = 'barJerry.png';
 // ball info
 var ball;
 var ballRad = 5;
-var dx = 2;
-var dy = 2;
+var dx;
+var dy;
 var ballX = 300;
 var ballY = 300;
 
@@ -210,7 +319,7 @@ function init_stage() {
 
 	switch (stage_level) {
 	case 1:
-		bar
+
 		ball = setInterval(function () {
 			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
 				clearInterval(ball);
@@ -218,15 +327,22 @@ function init_stage() {
 				// 1단계 클리어 처리
 				// 스토리 진행 후
 				// 점수창 출력
-
 				// 점수창
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000) - pause_cum;
-
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
 
-				setTimeout(function () {
+
+
+
+
+
+
+
+
+
+				showNextStage = setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 2;
 					pauseFlag = false;
@@ -251,17 +367,24 @@ function init_stage() {
 				// 2단계 클리어 처리
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000);
-
-
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
 
-				setTimeout(function () {
+
+
+
+
+
+
+
+
+
+				showNextStage = setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 3;
 					pauseFlag = false;
 					init_stage();
-				}, 2000);
+				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
 				clearInterval(ball);
 				clearInterval(bar);
@@ -283,13 +406,13 @@ function init_stage() {
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
 
-				setTimeout(function () {
+				showNextStage = setTimeout(function () {
 					// stage_level = 1;
 					$("#score").fadeOut('fast');
 					$("#ingame").hide();
 					$("#stage-menu").show();
 					pauseFlag = false;
-				}, 2000);
+				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
 				clearInterval(ball);
 				clearInterval(bar);
@@ -329,6 +452,8 @@ function drawBall() {
 	frame.fillStyle = "black";
 	frame.arc(ballX, ballY, ballRad, 0, 2*Math.PI);
 	frame.fill();
+
+
 
 	// 맵벽 좌-우
 	if((ballX + dx <= ballRad && ballY + dy > ballRad) || (ballX + dx >= ingame_canvas_width-ballRad && ballY + dy > ballRad)) {
@@ -412,24 +537,20 @@ function check_crash_bar_co() {
 // 위의 경우
 function check_crash_bar() {
 	if(ballX >= barX && ballX <= barX+barWidth && ballY+ballRad >= barY && ballY+ballRad <= barY+3) {
-		console.log(0)
+
 		if(ballX <= barX + barWidth*(1/4)) {
-			console.log(1)
 			dx = -2;
 			dy = 2;
 		} 
 		else if(ballX >= barX + barWidth*(3/4)) {
-			console.log(2)
 			dx = 2;
 			dy = 2;
 		}
 		else if(ballX <= barX + barWidth*(1/2)) {
-			console.log(3)
 			dx = -1;
 			dy = 2;
 		}
 		else if(ballX <= barX + barWidth*(3/4)) {
-			console.log(4)
 			dx = 1;
 			dy = 2;
 		}
