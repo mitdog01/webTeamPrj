@@ -1,8 +1,12 @@
 let ballColor = "#1111ff";
 let backgroundMusic = "music1.mp3";
+let audio = new Audio(backgroundMusic);
+audio.loop = true;
+audio.autoplay = true;
 
 $(window).on("load", function () {
-	
+
+
 	////////////      MAIN-MENU EVENT        ///////////
 
 	$('#main-menu-start-btn').click(function () {	// initialize start button
@@ -120,7 +124,25 @@ $(window).on("load", function () {
 
 	//////////      GAME SETTING EVENT       ///////////
 
+	if(backgroundMusic === "music1.mp3") {  // code that initialize music button
+		$("#music1").attr("checked", true)
+	} else if (backgroundMusic === "music2.mp3") {
+		$("#music2").attr("checked", true);
+	}
+
 	$('#colorpicker').attr("value", ballColor);	// initialize with given color
+
+	if(audio.paused) {	// if music is not auto-played mute button should be active
+		$("#mute-input").attr("checked", true);
+	}
+
+	$('#mute-btn').click(function () {	// mute-btn listner
+		if($('#mute-input').is(':checked')) {
+			audio.play();
+		} else {
+			audio.pause();
+		}
+	});
 
 	$('#apply-btn').click(function () {  // Applying music setting(Except muting) & ballColor Setting
 		if ($('#music1').is(':checked')) {
@@ -132,6 +154,11 @@ $(window).on("load", function () {
 
 		ballColor = document.getElementById("colorpicker").value;
 		alert(ballColor);   // for debugging
+	})
+
+	$('#go-to-main-menu-btn').click(function () {
+		$('#setting-page').hide();
+		$('#main-menu').show();
 	})
 
 	////////////////////////////////////////////////////
