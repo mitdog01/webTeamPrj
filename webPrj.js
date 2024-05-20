@@ -151,6 +151,8 @@ $(window).on("load", function () {
 			backgroundMusic = "music2.mp3";
 		}
 		alert(backgroundMusic); // for debugging (should be deleted)
+		audio.setAttribute("src", backgroundMusic);
+		audio.load();
 
 		ballColor = document.getElementById("colorpicker").value;
 		alert(ballColor);   // for debugging
