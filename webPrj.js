@@ -128,6 +128,9 @@ $(window).on("load", function () {
 
 	$("#score-stage-btn").click(function () {
 		$("#ingame").hide();
+		$("#score").hide();
+		pauseFlag = false;
+		clearTimeout(showNextStage);
 		$("#stage-menu").show();
 	});
 
@@ -151,6 +154,7 @@ function barController() {
 
 // stage info
 var stage_level = 1;
+var showNextStage;
 
 // pause info
 var pauseFlag = false;
@@ -173,8 +177,8 @@ bar_jerry.src = 'barJerry.png';
 // ball info
 var ball;
 var ballRad = 5;
-var dx = 1;
-var dy = 1;
+var dx;
+var dy;
 var ballX = 300;
 var ballY = 300;
 
@@ -216,8 +220,8 @@ function init_stage() {
 	// ball init
 	ballX = 300;
 	ballY = 300;
-	dx = 1;
-	dy = 1;
+	dx = 2;
+	dy = 2;
 
 	// block init
 	block = [
@@ -263,7 +267,7 @@ function init_stage() {
 
 
 
-				setTimeout(function () {
+				showNextStage = setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 2;
 					pauseFlag = false;
@@ -300,7 +304,7 @@ function init_stage() {
 
 
 
-				setTimeout(function () {
+				showNextStage = setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 3;
 					pauseFlag = false;
@@ -327,16 +331,13 @@ function init_stage() {
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
 
-				setTimeout(function () {
+				showNextStage = setTimeout(function () {
 					// stage_level = 1;
 					$("#score").fadeOut('fast');
 					$("#ingame").hide();
 					$("#stage-menu").show();
 					pauseFlag = false;
 				}, 5000);
-
-
-
 			} else if(ballY+ballRad >= ingame_canvas_height) {
 				clearInterval(ball);
 				clearInterval(bar);
@@ -463,20 +464,20 @@ function check_crash_bar() {
 	if(ballX >= barX && ballX <= barX+barWidth && ballY+ballRad >= barY && ballY+ballRad <= barY+3) {
 
 		if(ballX <= barX + barWidth*(1/4)) {
-			dx = -1;
-			dy = 1;
+			dx = -2;
+			dy = 2;
 		} 
 		else if(ballX >= barX + barWidth*(3/4)) {
-			dx = 1;
-			dy = 1;
+			dx = 2;
+			dy = 2;
 		}
 		else if(ballX <= barX + barWidth*(1/2)) {
-			dx = -0.5;
-			dy = 1;
+			dx = -1;
+			dy = 2;
 		}
 		else if(ballX <= barX + barWidth*(3/4)) {
-			dx = 0.5;
-			dy = 1;
+			dx = 1;
+			dy = 2;
 		}
 		return 1;
 	}
