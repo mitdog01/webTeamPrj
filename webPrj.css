@@ -65,19 +65,64 @@ input { display: none;}
 
 }
 
+=======
+#scenario-skip-message {
+	position: absolute;
+	top :640px;
+	left: 155px;
+	color: white;
+	font-size: 22px;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
+
 /************************* setting related ************************/
-/*
 #setting-popup {
 	position: absolute;
-	height: 400px;
-	width: 600px;
+	height: 500px;
+	width: 400px;
 	top: 150px;
-	left: 415px;
+	left: 515px;
 	background-color: gray;
 	z-index: 1;
 	border-radius: 15px;
+	display: none;
 }
-*/
+
+#pause-label {
+	position: absolute;
+	width: 170px;
+	height: 70px;
+	left: 115px;
+	top: 90px;
+	background-color: #00FFFF;
+}
+
+#pause-main-menu {
+	position: absolute;
+	left: 100px;
+	bottom : 90px;
+	width: 200px;
+	height: 80px;
+	background-color: #00FFFF;
+}
+
+#pause-setting {
+	position: absolute;
+	left: 100px;
+	bottom : 210px;
+	width: 200px;
+	height: 80px;
+	background-color: #00FFFF;
+}
+
+#setting-label {
+	width: 360px;
+	height: 110px;
+	background-color: #B8860B;
+	position: absolute;
+	left: 275px;
+	top: 30px;
+}
 
 #setting-page {
 	width: 910px;
@@ -133,6 +178,11 @@ input { display: none;}
 	top: 270px;
 }
 
+#myCanvas {
+	background-color: lightgrey;
+	border: 1px dotted black;
+}
+
 #color {
 	position: absolute;
 	left: 120px;
@@ -163,9 +213,6 @@ input[type="color" i] {
 	inline-size: 30px;
 	block-size: 30px;
 
-	/* Can set padding between outer circle and color swatch for Firefox here;
-     * it doesn't support a color-swarch-wrapper pseudoclass
-     */
 	padding: 3px;
 	border-width: 1px;
 	border-style: solid;
@@ -205,6 +252,7 @@ input[type="color" i]::-webkit-color-swatch {
 /******************************************************************/
 /********************** stage-menu related ************************/
 #stage-menu {
+	display: none;
 	width: 910px;
 	height: 900px;
 	background-image: url('brickBackground.jpg');
@@ -237,10 +285,15 @@ input[type="color" i]::-webkit-color-swatch {
 	border: 5px solid #C27F30;
 	background-image: url('stage1.gif');
 	background-size: cover;
+	line-height: 30px;
+	text-align: center;
+	color: black;	
 }
 
 #stage1:hover {
 	border: 10px solid #00FFFF;
+	color: white;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;	
 }
 
 #stage2 {
@@ -253,10 +306,15 @@ input[type="color" i]::-webkit-color-swatch {
 	border: 5px solid #C27F30;
 	background-image: url('stage2.gif');
 	background-size: cover;
+	line-height: 30px;
+	text-align: center;
+	color: black;
 }
 
 #stage2:hover {
 	border: 10px solid #00FFFF;
+	color: white;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
 }
 
 #stage3 {
@@ -269,10 +327,15 @@ input[type="color" i]::-webkit-color-swatch {
 	border: 5px solid #C27F30;
 	background-image: url('stage3.gif');
 	background-size: cover;
+	line-height: 30px;
+	text-align: center;
+	color: black;	
 }
 
 #stage3:hover {
 	border: 10px solid #00FFFF;
+	color: white;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
 }
 
 #stage-menu-mainbtn {
@@ -316,6 +379,7 @@ input[type="color" i]::-webkit-color-swatch {
 	right: 265px;
 	position: absolute;
 	background-image: url('brickBackground.jpg');
+	z-index: -1;
 }
 
 #stage {
@@ -324,9 +388,15 @@ input[type="color" i]::-webkit-color-swatch {
 	height: 500px;
 }
 
+#stage-background {
+	background-color: peru;
+	width: 810px;
+	margin: auto;
+}
+
 canvas {
+	background-color: rgba(255, 255, 255, 0.5);
 	display: inline;
-	background-color: white;
 }
 
 #score {
@@ -391,7 +461,7 @@ canvas {
 }
 
 /******************************************************************/
-/******************************************************************/
+
 /************************* Main-Menu related **************************/
 #main-menu {
 	width: 910px;
@@ -400,7 +470,7 @@ canvas {
 	position: absolute;
 	left: 256px;
 	right: 256px;
-	display: none;
+	display: block;
 }
 
 #main-menu-start-btn {
@@ -429,6 +499,4 @@ canvas {
 	top: 90px;
 	background: aquamarine;
 }
-
-
 

@@ -1,9 +1,20 @@
 let ballColor = "#1111ff";
+let bouncingBallColor = ballColor;
 let backgroundMusic = "music1.mp3";
+let audio = new Audio(backgroundMusic);
+let settingball;
+audio.loop = true;
+audio.autoplay = true;
 
 $(window).on("load", function () {
-	
+
+
 	////////////      MAIN-MENU EVENT        ///////////
+  
+	$('#main-menu-start-btn').click(function () {	// initialize start button
+		$('#main-menu').hide();
+		$('#stage-menu').show();
+	})
 
 	////////////////////////// 이미지 슬라이드쇼 관련 변수 및 함수 ///////////////////////////////
 	const images = [
@@ -15,6 +26,7 @@ $(window).on("load", function () {
 	];
 	let currentIndex = -1;
 	let intervalId;
+	let interval;
 
 	const imgElement = document.getElementById('scenario-image');
 	const animation = document.getElementById('slideshow-container')
@@ -22,12 +34,28 @@ $(window).on("load", function () {
 	const startButton = document.getElementById('main-menu-start-btn');
 	const stageMenu = document.getElementById('stage-menu');
 
-
 	// 메인 메뉴 시작 버튼 클릭 이벤트를 통합하여 수정
 	$(startButton).click(function () {
 	    $('#main-menu').hide(); // 메인 메뉴 숨김
 	    $(animation).show();
 	    startSlideshow();
+	});
+
+	// 시나리오 스킵(클릭 혹은 아무 키 누를 시-> 아무 키는 아래 keydown에서)
+	$(animation).click(function () {
+		$(animation).hide();
+		clearInterval(intervalId);
+		clearInterval(interval);
+		startButton.style.display = 'block';
+		$("#stage-menu").show();
+	});
+
+	$(animation).keydown(function() {
+		$(animation).hide();
+		clearInterval(intervalId);
+		clearInterval(interval);
+		startButton.style.display = 'block';
+		$("#stage-menu").show();		
 	});
 
 	function startSlideshow() {
@@ -47,7 +75,7 @@ $(window).on("load", function () {
 	            descriptionElement.textContent = ''; 
 	            descriptionElement.style.display = 'none';
 	            animation.style.display = 'none';
-	                startButton.style.display = 'block';
+	            startButton.style.display = 'block';
 
 	            // 슬라이드쇼 종료 후 stage-menu를 보여줌
 	            stageMenu.style.display = 'block';
@@ -62,7 +90,7 @@ $(window).on("load", function () {
 	function updateDescription(description) {
 	    descriptionElement.textContent = ''; 
 	    let index = 0; 
-	    const interval = setInterval(() => {
+	    interval = setInterval(() => {
 	        descriptionElement.textContent += description[index++]; 
 	        if (index >= description.length) {
 	            clearInterval(interval);
@@ -74,6 +102,9 @@ $(window).on("load", function () {
 	$('#main-menu-setting-btn').click(function () {
 		$('#main-menu').hide();
 		$('#setting-page').show();
+		settingball = setInterval(settingDraw, 10);
+
+		$('#go-to-main-menu-btn').text('go-to-main-menu'); // 이미지로 바꿀 경우 주소를 바꾸면 됌
 	});
 
 	////////////////////////////////////////////////////
@@ -141,34 +172,47 @@ $(window).on("load", function () {
 	drawBar();
 
 	// 방향키 입력 감지
+	var catchIngame = document.getElementById('ingame');
+
 	$(document).keydown(function (e) {
-		if(e.keyCode == 27) {
-			if(!pauseFlag)
-				// 게임 일시정지 시간 측정 시작
-				pause_start = Number(new Date());
-				// 팝업 창 열리는 처리
+		if(catchIngame.style.display == 'block') {
+			if(e.keyCode == 27 && !offpause) {
+				if(!pauseFlag) {
+					// 게임 일시정지 시간 측정 시작
+					pause_start = Number(new Date());
+					// 팝업 창 열리는 처리
+					$('#setting-popup').show();
+
+				}
+				else {
+					// 팝업 창 닫히는 처리
+					$('#setting-popup').hide();
 
 
 
 
-			else {
-				// 팝업 창 닫히는 처리
 
-
-
-
-				// 멈추는 거 풀 때 일시정지 시간 측정 종료
-				pause_end = Number(new Date());
-				pause_cum += Math.floor((pause_end - pause_start)/1000);
+					// 멈추는 거 풀 때 일시정지 시간 측정 종료
+					pause_end = Number(new Date());
+					pause_cum += Math.floor((pause_end - pause_start)/1000);
+				}
+				pauseFlag = !pauseFlag;
 			}
-			pauseFlag = !pauseFlag;
+			else if(e.keyCode != 27)
+				keyState[e.keyCode] = true;
+		} else if(animation.style.display == 'block') {
+			$(animation).hide();
+			clearInterval(intervalId);
+			clearInterval(interval);
+			startButton.style.display = 'block';
+			$("#stage-menu").show();
 		}
-		else
-			keyState[e.keyCode] = true;
 	});
 	$(document).keyup(function (e) {
-		if(e.keyCode != 27)
-			keyState[e.keyCode] = false;
+		if(catchIngame.style.display == 'block') {
+			if(e.keyCode != 27)
+				keyState[e.keyCode] = false;
+		}
 	});	
 
 	//
@@ -181,6 +225,29 @@ $(window).on("load", function () {
 
 	//////////      GAME SETTING EVENT       ///////////
 
+	if(backgroundMusic === "music1.mp3") {  // code that initialize music button
+		$("#music1").attr("checked", true)
+	} else if (backgroundMusic === "music2.mp3") {
+		$("#music2").attr("checked", true);
+	}
+
+	$('#colorpicker').attr("value", ballColor);	// initialize with given color
+	$('#colorpicker').on("input", function (e) {
+		bouncingBallColor = e.target.value;
+	})
+
+	if(audio.paused) {	// if music is not auto-played mute button should be active
+		$("#mute-input").attr("checked", true);
+	}
+
+	$('#mute-btn').click(function () {	// mute-btn listner
+		if($('#mute-input').is(':checked')) {
+			audio.play();
+		} else {
+			audio.pause();
+		}
+	});
+  
 	$('#colorpicker').attr("value", ballColor);	// initialize with given color
 
 	$('#apply-btn').click(function () {  // Applying music setting(Except muting) & ballColor Setting
@@ -191,9 +258,86 @@ $(window).on("load", function () {
 		}
 		alert(backgroundMusic); // for debugging (should be deleted)
 
+		audio.setAttribute("src", backgroundMusic);
+		audio.load();
+
 		ballColor = document.getElementById("colorpicker").value;
 		alert(ballColor);   // for debugging
-	})
+	});
+
+	// 메인으로 가거나 인게임으로 돌아가는 button
+	$('#go-to-main-menu-btn').click(function () {
+		$('#setting-page').hide();
+		clearInterval(settingball);
+		if(catchIngame.style.display != 'block') {
+			$('#main-menu').show();
+		} else {
+			$('#setting-popup').show();
+		}
+	});
+
+	let canvas = document.getElementById('myCanvas');
+	let context = canvas.getContext('2d');
+
+	var settingdx = 2;
+	var settingdy = 2;
+
+	var x = 100;
+	var y = 50;
+
+  // is it ok? to origin draw, drawBall, ball, dx, dy
+	function settingDraw() {
+		context.clearRect(0, 0, 250, 250);
+		settingDrawBall();
+	}
+
+	function settingDrawBall() {
+		context.beginPath();
+		context.arc(x, y, 20, 0, 2.0 * Math.PI, true);
+		context.fillStyle = bouncingBallColor;
+		context.closePath();
+		context.fill();
+
+		if((y>=230 && x>0) || (y<=20 && x>0)) { // bottom, top
+			settingdy *= -1;
+		}
+		else if((y>0 && x>230) || (y>0 && x<20)) { // right. left
+			settingdx *= -1;
+		}
+
+		x += settingdx;
+		y += settingdy;
+	}
+
+	////////////////////////////////////////////////////
+
+	///////////       setting popup          ///////////
+
+	$('#pause-setting').click(function () {
+		// alert('called');
+		// 일시정지 처리
+		pasueFlag = true;
+		pause_start = Number(new Date());
+
+		// setting-btn의 go-to-main을 go-to-ingame으로 바꿔야(img의 경우에는 img의 src를 바꿔주면 OK)
+		$('#go-to-main-menu-btn').text('go-to-ingame');
+
+		$('#setting-page').show();
+		settingball = setInterval(settingDraw, 10);
+		$('#setting-popup').hide();
+	});
+
+	$('#pause-main-menu').click(function () {
+		// 인게임 종료 -> 메인 메뉴로
+		pauseFlag = false;
+		clearInterval(ball);
+		clearInterval(bar);		
+
+		catchIngame.style.display = 'none';
+
+		$('#setting-popup').hide();
+		$('#main-menu').show();
+	});
 
 	////////////////////////////////////////////////////
 
@@ -219,10 +363,10 @@ var keyState = {};
 function barController() {
 	if(!pauseFlag) {
 		if(keyState[37] && barX > 0){
-			barX-=4;
+			barX-=3;
 		}
 		else if(keyState[39] && barX < ingame_canvas_width-barWidth) {
-			barX+=4;
+			barX+=3;
 		}
 	}
 }
@@ -232,7 +376,8 @@ var stage_level = 1;
 var showNextStage;
 
 // pause info
-var pauseFlag = false;
+var pauseFlag = true;
+var offpause = false;
 
 // game canvas info
 var frame;
@@ -287,6 +432,10 @@ var score_cum;
 // 상태 초기화 : 스테이지 바뀔 때, 재시작할 때, 등등..
 function init_stage() {
 
+	//pasueFlag
+	pauseFlag = false;
+	offpause = false;
+
 	// bar init
 	barX = 375;
 	barY = 450;
@@ -295,8 +444,8 @@ function init_stage() {
 	// ball init
 	ballX = 300;
 	ballY = 300;
-	dx = 2;
-	dy = 2;
+	dx = Math.sqrt(2.5);
+	dy = Math.sqrt(2.5);
 
 	// block init
 	block = [
@@ -319,6 +468,8 @@ function init_stage() {
 
 	switch (stage_level) {
 	case 1:
+		// stage-background change
+		$("#stage-background").css('background-color', 'peru');
 
 		ball = setInterval(function () {
 			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
@@ -332,7 +483,7 @@ function init_stage() {
 				clear_time = Math.floor((curr_time - start_time)/1000) - pause_cum;
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
-
+				offpause = true; // 스코어 보드 떠 있는 동안은 pause 사용 불가하게
 
 
 
@@ -345,7 +496,6 @@ function init_stage() {
 				showNextStage = setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 2;
-					pauseFlag = false;
 					init_stage();
 				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
@@ -360,6 +510,9 @@ function init_stage() {
 
 		break;
 	case 2:
+		// stage-background change
+		$("#stage-background").css('background-color', '#B5928D');
+
 		ball = setInterval(function () {
 			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
 				clearInterval(ball);
@@ -369,7 +522,7 @@ function init_stage() {
 				clear_time = Math.floor((curr_time - start_time)/1000);
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
-
+				offpause = true;
 
 
 
@@ -382,7 +535,6 @@ function init_stage() {
 				showNextStage = setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 3;
-					pauseFlag = false;
 					init_stage();
 				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
@@ -396,6 +548,9 @@ function init_stage() {
 		}, frameRate);
 		break;
 	case 3:
+		// stage-background change
+		$("#stage-background").css('background-color', '#ADADAD');
+
 		ball = setInterval(function () {
 			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
 				clearInterval(ball);
@@ -405,13 +560,19 @@ function init_stage() {
 				clear_time = Math.floor((curr_time - start_time)/1000);
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
+				offpause = true;
+
+
+
+
+
+
 
 				showNextStage = setTimeout(function () {
 					// stage_level = 1;
 					$("#score").fadeOut('fast');
 					$("#ingame").hide();
 					$("#stage-menu").show();
-					pauseFlag = false;
 				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
 				clearInterval(ball);
@@ -449,7 +610,7 @@ function drawBar() {
 function drawBall() {
 	// 공 그리기
 	frame.beginPath();
-	frame.fillStyle = "black";
+	frame.fillStyle = bouncingBallColor;
 	frame.arc(ballX, ballY, ballRad, 0, 2*Math.PI);
 	frame.fill();
 
@@ -539,12 +700,12 @@ function check_crash_bar() {
 	if(ballX >= barX && ballX <= barX+barWidth && ballY+ballRad >= barY && ballY+ballRad <= barY+3) {
 
 		if(ballX <= barX + barWidth*(1/4)) {
-			dx = -2;
-			dy = 2;
+			dx = -Math.sqrt(2.5);
+			dy = Math.sqrt(2.5);
 		} 
 		else if(ballX >= barX + barWidth*(3/4)) {
-			dx = 2;
-			dy = 2;
+			dx = Math.sqrt(2.5);
+			dy = Math.sqrt(2.5);
 		}
 		else if(ballX <= barX + barWidth*(1/2)) {
 			dx = -1;
@@ -627,9 +788,11 @@ function check_crash_blocks_tb() {
 	for(i=0;i<block.length;i++) {
 		for(j=0;j<block[i].length;j++) {
 			if(block[i][j] > 0) {
-				if(ballX >= blockX+j*blockWidth && ballX <= blockX+(j+1)*blockWidth && ((ballY+ballRad >= blockY+i*blockHeight && ballY+ballRad <= blockY+i*blockHeight+1) || (ballY-ballRad >= blockY+(i+1)*blockHeight-1 && ballY-ballRad <= blockY+(i+1)*blockHeight))) {
-					block[i][j]--;
-					return 1;
+				if(ballX >= blockX+j*blockWidth && ballX <= blockX+(j+1)*blockWidth) {
+					if(ballY + dy >= blockY+i*blockHeight && ballY + dy <= blockY+(i+1)*blockHeight) {
+						block[i][j]--;
+						return 1;
+					}
 				}
 			}
 		}
@@ -642,11 +805,11 @@ function check_crash_blocks_lr() {
 	for(i=0;i<block.length;i++) {
 		for(j=0;j<block[i].length;j++) {
 			if(block[i][j] > 0) {
-				if(ballY >= blockY+i*blockHeight+1 && ballY <= blockY+(i+1)*blockHeight-1 && ((ballX+ballRad >= blockX+j*blockWidth && ballX+ballRad <= blockX+j*blockWidth+1) || (ballX-ballRad >= blockX+(j+1)*blockWidth-1 && ballX-ballRad <= blockX+(j+1)*blockWidth))) {
-					console.log(ballX, blockX+(j+1)*blockWidth)
-					console.log(ballY)
-					block[i][j]--;
-					return 1;
+				if(ballY >= blockY+i*blockHeight && ballY <= blockY+(i+1)*blockHeight) {
+					if(ballX + dx >= blockX+j*blockWidth && ballX + dx <= blockX+(j+1)*blockWidth) {
+						block[i][j]--;
+						return 1;
+					}
 				}
 			}
 		}

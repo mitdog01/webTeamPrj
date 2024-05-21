@@ -18,6 +18,7 @@
 	    	<img id="scenario-image">		
 		</div>
     	<textarea id="scenario-description" readonly></textarea>
+    	<div id="scenario-skip-message">to skip press any key or click anywhere...</div>
 	</div>
 	<div id="stage-menu">
 		<label id="stage-menu-title"><img src="stageTitle1.png" width="400" height="80"></label>
@@ -27,10 +28,11 @@
 		<label id="stage-menu-mainbtn"><img src="stageMainBtn_default.png" width="250" height="100"></label>
 	</div>
 	<div id="setting-page">
+		<div id="setting-label">Setting</div>
 		<div id="config-box">
 			<div class="toggle">
-				<input type="checkbox">
-				<label id="mute-btn">should be replaced with img</label>
+				<input id="mute-input" type="checkbox">
+				<label id="mute-btn" for="mute-input">should be replaced with img</label>
 			</div>
 			<div class="music-row">
 				<div class="radio">
@@ -60,7 +62,9 @@
 		</div>
 	</div>
 	<div id="setting-popup">
-		
+		<div id="pause-label">pause-label</div>
+		<div id="pause-setting">pause-setting</div>
+		<div id="pause-main-menu">pause-main-menu</div>
 	</div>
 	<div id="ingame">
 		<div id="stage-left"></div>
@@ -72,8 +76,10 @@
 		<div id="stage-wrapper">
 			<div id="stage">
 				<img id="hole">
-				<canvas id="gFrame" width="810" height="500">
-				</canvas>
+				<div id="stage-background">
+					<canvas id="gFrame" width="810" height="500">
+					</canvas>
+				</div>
 			</div>
 		</div>	
 		<div id="stage-right"></div>
