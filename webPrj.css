@@ -65,6 +65,15 @@ input { display: none;}
 
 }
 
+#scenario-skip-message {
+	position: absolute;
+	top :640px;
+	left: 155px;
+	color: white;
+	font-size: 22px;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
+
 /************************* setting related ************************/
 /*
 #setting-popup {
