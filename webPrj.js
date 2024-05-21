@@ -266,6 +266,17 @@ $(window).on("load", function () {
 	////////////////////////////////////////////////////
 	///////////       setting popup          ///////////
 
+	$('#pause-setting').click(function () {
+		alert('called');
+		$('#setting-page').show();
+		$('#setting-popup').hide();
+	})
+
+	$('#pause-main-menu').click(function () {
+		$('#main-menu').show();
+		$('#setting-popup').hide();
+	})
+
 	////////////////////////////////////////////////////
 
 	//////////////      SCORE PART       ///////////////
