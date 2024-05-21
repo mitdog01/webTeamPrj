@@ -175,16 +175,17 @@ $(window).on("load", function () {
 	$(document).keydown(function (e) {
 		if(catchIngame.style.display == 'block') {
 			if(e.keyCode == 27) {
-				if(!pauseFlag)
+				if(!pauseFlag) {
 					// 게임 일시정지 시간 측정 시작
 					pause_start = Number(new Date());
 					// 팝업 창 열리는 처리
+					$('#setting-popup').show();
 
-
-
-
+				}
 				else {
 					// 팝업 창 닫히는 처리
+					$('#setting-popup').hide();
+
 
 
 
@@ -300,6 +301,20 @@ $(window).on("load", function () {
 		x += settingdx;
 		y += settingdy;
 	}
+
+	////////////////////////////////////////////////////
+	///////////       setting popup          ///////////
+
+	$('#pause-setting').click(function () {
+		alert('called');
+		$('#setting-page').show();
+		$('#setting-popup').hide();
+	})
+
+	$('#pause-main-menu').click(function () {
+		$('#main-menu').show();
+		$('#setting-popup').hide();
+	})
 
 	////////////////////////////////////////////////////
 
