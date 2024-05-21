@@ -325,10 +325,10 @@ var keyState = {};
 function barController() {
 	if(!pauseFlag) {
 		if(keyState[37] && barX > 0){
-			barX-=4;
+			barX-=3;
 		}
 		else if(keyState[39] && barX < ingame_canvas_width-barWidth) {
-			barX+=4;
+			barX+=3;
 		}
 	}
 }
@@ -404,8 +404,8 @@ function init_stage() {
 	// ball init
 	ballX = 300;
 	ballY = 300;
-	dx = 2;
-	dy = 2;
+	dx = Math.sqrt(2.5);
+	dy = Math.sqrt(2.5);
 
 	// block init
 	block = [
@@ -428,6 +428,8 @@ function init_stage() {
 
 	switch (stage_level) {
 	case 1:
+		// stage-background change
+		$("#stage-background").css('background-color', 'peru');
 
 		ball = setInterval(function () {
 			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
@@ -468,6 +470,9 @@ function init_stage() {
 
 		break;
 	case 2:
+		// stage-background change
+		$("#stage-background").css('background-color', '#B5928D');
+
 		ball = setInterval(function () {
 			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
 				clearInterval(ball);
@@ -503,6 +508,9 @@ function init_stage() {
 		}, frameRate);
 		break;
 	case 3:
+		// stage-background change
+		$("#stage-background").css('background-color', '#ADADAD');
+
 		ball = setInterval(function () {
 			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
 				clearInterval(ball);
@@ -645,12 +653,12 @@ function check_crash_bar() {
 	if(ballX >= barX && ballX <= barX+barWidth && ballY+ballRad >= barY && ballY+ballRad <= barY+3) {
 
 		if(ballX <= barX + barWidth*(1/4)) {
-			dx = -2;
-			dy = 2;
+			dx = -Math.sqrt(2.5);
+			dy = Math.sqrt(2.5);
 		} 
 		else if(ballX >= barX + barWidth*(3/4)) {
-			dx = 2;
-			dy = 2;
+			dx = Math.sqrt(2.5);
+			dy = Math.sqrt(2.5);
 		}
 		else if(ballX <= barX + barWidth*(1/2)) {
 			dx = -1;
