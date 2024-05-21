@@ -378,6 +378,7 @@ input[type="color" i]::-webkit-color-swatch {
 	right: 265px;
 	position: absolute;
 	background-image: url('brickBackground.jpg');
+	z-index: -1;
 }
 
 #stage {
@@ -386,9 +387,15 @@ input[type="color" i]::-webkit-color-swatch {
 	height: 500px;
 }
 
+#stage-background {
+	background-color: peru;
+	width: 810px;
+	margin: auto;
+}
+
 canvas {
+	background-color: rgba(255, 255, 255, 0.5);
 	display: inline;
-	background-color: white;
 }
 
 #score {
