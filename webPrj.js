@@ -103,6 +103,8 @@ $(window).on("load", function () {
 		$('#main-menu').hide();
 		$('#setting-page').show();
 		settingball = setInterval(settingDraw, 10);
+
+		$('#go-to-main-menu-btn').text('go-to-main-menu'); // 이미지로 바꿀 경우 주소를 바꾸면 됌
 	});
 
 	////////////////////////////////////////////////////
@@ -174,7 +176,7 @@ $(window).on("load", function () {
 
 	$(document).keydown(function (e) {
 		if(catchIngame.style.display == 'block') {
-			if(e.keyCode == 27) {
+			if(e.keyCode == 27 && !offpause) {
 				if(!pauseFlag) {
 					// 게임 일시정지 시간 측정 시작
 					pause_start = Number(new Date());
@@ -196,7 +198,7 @@ $(window).on("load", function () {
 				}
 				pauseFlag = !pauseFlag;
 			}
-			else
+			else if(e.keyCode != 27)
 				keyState[e.keyCode] = true;
 		} else if(animation.style.display == 'block') {
 			$(animation).hide();
@@ -263,10 +265,22 @@ $(window).on("load", function () {
 		alert(ballColor);   // for debugging
 	});
 
+	// 메인으로 가거나 인게임으로 돌아가는 button
 	$('#go-to-main-menu-btn').click(function () {
 		$('#setting-page').hide();
 		clearInterval(settingball);
-		$('#main-menu').show();
+		if(catchIngame.style.display == 'block') {
+			pauseFlag = false;
+			clearInterval(ball);
+			clearInterval(bar);
+
+			catchIngame.style.display = 'none';
+
+			$('#setting-popup').hide();
+			$('#main-menu').show();			
+		} else {
+			$('#main-menu').show();
+		}	
 	});
 
 	let canvas = document.getElementById('myCanvas');
@@ -303,18 +317,34 @@ $(window).on("load", function () {
 	}
 
 	////////////////////////////////////////////////////
+
 	///////////       setting popup          ///////////
 
 	$('#pause-setting').click(function () {
-		alert('called');
+		// alert('called');
+		// 일시정지 처리
+		pasueFlag = true;
+		pause_start = Number(new Date());
+
+		// setting-btn의 go-to-main을 go-to-ingame으로 바꿔야(img의 경우에는 img의 src를 바꿔주면 OK)
+		$('#go-to-main-menu-btn').text('go-to-ingame');
+
 		$('#setting-page').show();
+		settingball = setInterval(settingDraw, 10);
 		$('#setting-popup').hide();
-	})
+	});
 
 	$('#pause-main-menu').click(function () {
-		$('#main-menu').show();
+		// 인게임 종료 -> 메인 메뉴로
+		pauseFlag = false;
+		clearInterval(ball);
+		clearInterval(bar);		
+
+		catchIngame.style.display = 'none';
+
 		$('#setting-popup').hide();
-	})
+		$('#main-menu').show();
+	});
 
 	////////////////////////////////////////////////////
 
@@ -354,6 +384,7 @@ var showNextStage;
 
 // pause info
 var pauseFlag = true;
+var offpause = false;
 
 // game canvas info
 var frame;
@@ -410,6 +441,7 @@ function init_stage() {
 
 	//pasueFlag
 	pauseFlag = false;
+	offpause = false;
 
 	// bar init
 	barX = 375;
@@ -458,7 +490,7 @@ function init_stage() {
 				clear_time = Math.floor((curr_time - start_time)/1000) - pause_cum;
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
-
+				offpause = true; // 스코어 보드 떠 있는 동안은 pause 사용 불가하게
 
 
 
@@ -497,7 +529,7 @@ function init_stage() {
 				clear_time = Math.floor((curr_time - start_time)/1000);
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
-
+				offpause = true;
 
 
 
@@ -535,6 +567,13 @@ function init_stage() {
 				clear_time = Math.floor((curr_time - start_time)/1000);
 				$("#score").slideDown('slow');
 				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
+				offpause = true;
+
+
+
+
+
+
 
 				showNextStage = setTimeout(function () {
 					// stage_level = 1;
