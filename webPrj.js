@@ -41,12 +41,21 @@ $(window).on("load", function () {
 	    startSlideshow();
 	});
 
+	// 시나리오 스킵(클릭 혹은 아무 키 누를 시-> 아무 키는 아래 keydown에서)
 	$(animation).click(function () {
 		$(animation).hide();
 		clearInterval(intervalId);
 		clearInterval(interval);
 		startButton.style.display = 'block';
 		$("#stage-menu").show();
+	});
+
+	$(animation).keydown(function() {
+		$(animation).hide();
+		clearInterval(intervalId);
+		clearInterval(interval);
+		startButton.style.display = 'block';
+		$("#stage-menu").show();		
 	});
 
 	function startSlideshow() {
@@ -161,34 +170,46 @@ $(window).on("load", function () {
 	drawBar();
 
 	// 방향키 입력 감지
+	var catchIngame = document.getElementById('ingame');
+
 	$(document).keydown(function (e) {
-		if(e.keyCode == 27) {
-			if(!pauseFlag)
-				// 게임 일시정지 시간 측정 시작
-				pause_start = Number(new Date());
-				// 팝업 창 열리는 처리
+		if(catchIngame.style.display == 'block') {
+			if(e.keyCode == 27) {
+				if(!pauseFlag)
+					// 게임 일시정지 시간 측정 시작
+					pause_start = Number(new Date());
+					// 팝업 창 열리는 처리
 
 
 
 
-			else {
-				// 팝업 창 닫히는 처리
+				else {
+					// 팝업 창 닫히는 처리
 
 
 
 
-				// 멈추는 거 풀 때 일시정지 시간 측정 종료
-				pause_end = Number(new Date());
-				pause_cum += Math.floor((pause_end - pause_start)/1000);
+					// 멈추는 거 풀 때 일시정지 시간 측정 종료
+					pause_end = Number(new Date());
+					pause_cum += Math.floor((pause_end - pause_start)/1000);
+				}
+				pauseFlag = !pauseFlag;
 			}
-			pauseFlag = !pauseFlag;
+			else
+				keyState[e.keyCode] = true;
+		} else if(animation.style.display == 'block') {
+			$(animation).hide();
+			clearInterval(intervalId);
+			clearInterval(interval);
+			startButton.style.display = 'block';
+			$("#stage-menu").show();
 		}
-		else
-			keyState[e.keyCode] = true;
 	});
 	$(document).keyup(function (e) {
-		if(e.keyCode != 27)
-			keyState[e.keyCode] = false;
+		if(catchIngame.style.display == 'block') {
+			if(e.keyCode != 27)
+				keyState[e.keyCode] = false;
+		}
 	});	
 
 	//
@@ -317,7 +338,7 @@ var stage_level = 1;
 var showNextStage;
 
 // pause info
-var pauseFlag = false;
+var pauseFlag = true;
 
 // game canvas info
 var frame;
@@ -371,6 +392,9 @@ var score_cum;
 
 // 상태 초기화 : 스테이지 바뀔 때, 재시작할 때, 등등..
 function init_stage() {
+
+	//pasueFlag
+	pauseFlag = false;
 
 	// bar init
 	barX = 375;
@@ -430,7 +454,6 @@ function init_stage() {
 				showNextStage = setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 2;
-					pauseFlag = false;
 					init_stage();
 				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
@@ -467,7 +490,6 @@ function init_stage() {
 				showNextStage = setTimeout(function () {
 					$("#score").fadeOut('fast');
 					stage_level = 3;
-					pauseFlag = false;
 					init_stage();
 				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
@@ -496,7 +518,6 @@ function init_stage() {
 					$("#score").fadeOut('fast');
 					$("#ingame").hide();
 					$("#stage-menu").show();
-					pauseFlag = false;
 				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
 				clearInterval(ball);
