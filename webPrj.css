@@ -249,10 +249,15 @@ input[type="color" i]::-webkit-color-swatch {
 	border: 5px solid #C27F30;
 	background-image: url('stage1.gif');
 	background-size: cover;
+	line-height: 30px;
+	text-align: center;
+	color: black;	
 }
 
 #stage1:hover {
 	border: 10px solid #00FFFF;
+	color: white;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;	
 }
 
 #stage2 {
@@ -265,10 +270,15 @@ input[type="color" i]::-webkit-color-swatch {
 	border: 5px solid #C27F30;
 	background-image: url('stage2.gif');
 	background-size: cover;
+	line-height: 30px;
+	text-align: center;
+	color: black;
 }
 
 #stage2:hover {
 	border: 10px solid #00FFFF;
+	color: white;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
 }
 
 #stage3 {
@@ -281,10 +291,15 @@ input[type="color" i]::-webkit-color-swatch {
 	border: 5px solid #C27F30;
 	background-image: url('stage3.gif');
 	background-size: cover;
+	line-height: 30px;
+	text-align: center;
+	color: black;	
 }
 
 #stage3:hover {
 	border: 10px solid #00FFFF;
+	color: white;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
 }
 
 #stage-menu-mainbtn {
