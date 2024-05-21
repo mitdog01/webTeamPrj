@@ -4,11 +4,33 @@ let backgroundMusic = "music1.mp3";
 let audio = new Audio(backgroundMusic);
 audio.loop = true;
 audio.autoplay = true;
+let backgroundMusic = "music1.mp3";
 
 $(window).on("load", function () {
 
 
 	////////////      MAIN-MENU EVENT        ///////////
+	////////////////////////// 이미지 슬라이드쇼 관련 변수 및 함수 ///////////////////////////////
+	const images = [
+	    { src: 'd1.png', description: '화목했던 톰과 제리는 '},
+	    { src: 'd2.png', description: '어느 날 둘이 사소한 일로 다투게 되는데...' },
+	    { src: 'd3.png', description: '톰은 이내 제리에게 복수를 하기 위해서 계획을 세운다...!' },
+	    { src: 'd4.png', description: '제리는 그런줄도 모르고 본인이 좋아하는 치즈를 먹고만 있는데..' },
+	    { src: 'd5.png', description: '과연 톰은 어떤 계획과 계략으로 제리를 잡는데 성공할지 의문이다.' }
+	];
+	let currentIndex = -1;
+	let intervalId;
+
+	const imgElement = document.getElementById('scenario-image');
+	const animation = document.getElementById('slideshow-container')
+	const descriptionElement = document.getElementById('scenario-description');
+	const startButton = document.getElementById('main-menu-start-btn');
+	const stageMenu = document.getElementById('stage-menu');
+  
+	$('#main-menu-start-btn').click(function () {	// initialize start button
+		$('#main-menu').hide();
+		$('#stage-menu').show();
+	})
 
 	////////////////////////// 이미지 슬라이드쇼 관련 변수 및 함수 ///////////////////////////////
 	const images = [
@@ -26,7 +48,6 @@ $(window).on("load", function () {
 	const descriptionElement = document.getElementById('scenario-description');
 	const startButton = document.getElementById('main-menu-start-btn');
 	const stageMenu = document.getElementById('stage-menu');
-
 
 	// 메인 메뉴 시작 버튼 클릭 이벤트를 통합하여 수정
 	$(startButton).click(function () {
@@ -208,7 +229,7 @@ $(window).on("load", function () {
 			audio.pause();
 		}
 	});
-
+  
 	$('#colorpicker').attr("value", ballColor);	// initialize with given color
 
 	$('#apply-btn').click(function () {  // Applying music setting(Except muting) & ballColor Setting
@@ -218,6 +239,7 @@ $(window).on("load", function () {
 			backgroundMusic = "music2.mp3";
 		}
 		alert(backgroundMusic); // for debugging (should be deleted)
+
 		audio.setAttribute("src", backgroundMusic);
 		audio.load();
 
@@ -239,6 +261,7 @@ $(window).on("load", function () {
 	var x = 100;
 	var y = 100;
 
+  // is it ok? to origin draw, drawBall, ball, dx, dy
 	function draw() {
 		context.clearRect(0, 0, 250, 250);
 		drawBall();
