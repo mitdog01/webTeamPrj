@@ -269,18 +269,11 @@ $(window).on("load", function () {
 	$('#go-to-main-menu-btn').click(function () {
 		$('#setting-page').hide();
 		clearInterval(settingball);
-		if(catchIngame.style.display == 'block') {
-			pauseFlag = false;
-			clearInterval(ball);
-			clearInterval(bar);
-
-			catchIngame.style.display = 'none';
-
-			$('#setting-popup').hide();
-			$('#main-menu').show();			
-		} else {
+		if(catchIngame.style.display != 'block') {
 			$('#main-menu').show();
-		}	
+		} else {
+			$('#setting-popup').show();
+		}
 	});
 
 	let canvas = document.getElementById('myCanvas');
