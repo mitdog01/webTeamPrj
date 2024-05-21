@@ -733,9 +733,11 @@ function check_crash_blocks_tb() {
 	for(i=0;i<block.length;i++) {
 		for(j=0;j<block[i].length;j++) {
 			if(block[i][j] > 0) {
-				if(ballX >= blockX+j*blockWidth && ballX <= blockX+(j+1)*blockWidth && ((ballY+ballRad >= blockY+i*blockHeight && ballY+ballRad <= blockY+i*blockHeight+1) || (ballY-ballRad >= blockY+(i+1)*blockHeight-1 && ballY-ballRad <= blockY+(i+1)*blockHeight))) {
-					block[i][j]--;
-					return 1;
+				if(ballX >= blockX+j*blockWidth && ballX <= blockX+(j+1)*blockWidth) {
+					if(ballY + dy >= blockY+i*blockHeight && ballY + dy <= blockY+(i+1)*blockHeight) {
+						block[i][j]--;
+						return 1;
+					}
 				}
 			}
 		}
@@ -748,11 +750,11 @@ function check_crash_blocks_lr() {
 	for(i=0;i<block.length;i++) {
 		for(j=0;j<block[i].length;j++) {
 			if(block[i][j] > 0) {
-				if(ballY >= blockY+i*blockHeight+1 && ballY <= blockY+(i+1)*blockHeight-1 && ((ballX+ballRad >= blockX+j*blockWidth && ballX+ballRad <= blockX+j*blockWidth+1) || (ballX-ballRad >= blockX+(j+1)*blockWidth-1 && ballX-ballRad <= blockX+(j+1)*blockWidth))) {
-					console.log(ballX, blockX+(j+1)*blockWidth)
-					console.log(ballY)
-					block[i][j]--;
-					return 1;
+				if(ballY >= blockY+i*blockHeight && ballY <= blockY+(i+1)*blockHeight) {
+					if(ballX + dx >= blockX+j*blockWidth && ballX + dx <= blockX+(j+1)*blockWidth) {
+						block[i][j]--;
+						return 1;
+					}
 				}
 			}
 		}
