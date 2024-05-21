@@ -207,6 +207,7 @@ input[type="color" i]::-webkit-color-swatch {
 /******************************************************************/
 /********************** stage-menu related ************************/
 #stage-menu {
+	display: none;
 	width: 910px;
 	height: 900px;
 	background-image: url('brickBackground.jpg');
@@ -402,7 +403,7 @@ canvas {
 	position: absolute;
 	left: 256px;
 	right: 256px;
-	display: none;
+	display: block;
 }
 
 #main-menu-start-btn {
