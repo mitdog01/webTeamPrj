@@ -301,7 +301,7 @@ $(window).on("load", function () {
 		if((y>=230 && x>0) || (y<=20 && x>0)) { // bottom, top
 			settingdy *= -1;
 		}
-		else if((y>0 && x>230) || (y>0 && x<20)) { // right. left
+		else if((y>0 && x>=230) || (y>0 && x<=20)) { // right. left
 			settingdx *= -1;
 		}
 
@@ -414,7 +414,6 @@ var blockY = 50;
 var blockWidth = 90;
 var blockHeight = 40;
 var cheese_block = new Image();
-cheese_block.src = 'cheese1.jpg';
 
 // hole info
 var holeX;
@@ -451,13 +450,12 @@ function init_stage() {
 	block = [
 	[1, 1, 1, 1, 3, 1, 1, 1, 1],
 	[1, 1, 1, 1, 1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[1, 1, 2, 1, 1, 1, 2, 1, 1],
 	[1, 1, 1, 1, 1, 1, 1, 1, 1],
 	];
 
 	// hole init
 	var holeX = Math.floor(Math.random() * 721);
-	console.log(holeX)
 	var hole = $("#hole");
 	hole.attr('src', 'hole.png');
 	hole.css({position:'absolute', top:'54px', left:`${50+holeX}px`});
@@ -662,23 +660,18 @@ function drawBall() {
 }
 
 // 배열(block 변수)을 참고하여 벽돌 그리는 함수
+// 1번 부수면 깨짐-노랑 / 2번 부수면 깨짐-회색 / 3번 부수면 깨짐-파랑
+var cheese_imgs = ['cheese1.jpg', 'cheese2.jpg', 'cheese3.jpg'];
 function drawBlocks() {
 	for(i=0;i<block.length;i++) {
 		for(j=0;j<block[i].length;j++) {
 			if(block[i][j] > 0) {
+				cheese_block = new Image();
+				cheese_block.src = cheese_imgs[block[i][j] - 1];
+				console.log(cheese_block.src);
 				frame.drawImage(cheese_block, blockX+j*blockWidth, blockY+i*blockHeight, blockWidth, blockHeight);
 			}
 		}
-	}
-}
-
-// 여러번 부숴야 할수록 색깔이 어둡게 표현하기 위함 -> 이미지 주소 배열로 바꾸기
-var numForColor = ['ff', 'bb', '5f', '44', '22'];
-function getBlockColor(num) {
-	if(num == 1) {
-		return 'white';
-	} else {
-		return '#0000' + numForColor[num-2];
 	}
 }
 
