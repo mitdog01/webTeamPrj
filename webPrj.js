@@ -331,7 +331,8 @@ $(window).on("load", function () {
 		// 인게임 종료 -> 메인 메뉴로
 		pauseFlag = false;
 		clearInterval(ball);
-		clearInterval(bar);		
+		clearInterval(bar);	
+		clearTimeout(lightHandler);	
 
 		catchIngame.style.display = 'none';
 
@@ -350,6 +351,7 @@ $(window).on("load", function () {
 		$("#score").hide();
 		pauseFlag = false;
 		clearTimeout(showNextStage);
+		clearTimeout(lightHandler);
 		$("#stage-menu").show();
 	});
 
@@ -428,6 +430,10 @@ var end_time;
 var clear_time;
 var score_cum;
 
+// stage 1 light(on&off) info
+var lightDrawer;
+var nextLightOff = 5000;
+
 // 상태 초기화 : 스테이지 바뀔 때, 재시작할 때, 등등..
 function init_stage() {
 
@@ -469,10 +475,15 @@ function init_stage() {
 		// stage-background change
 		$("#stage-background").css('background-color', 'peru');
 
+		// stage 1 light on & off 
+		lightHandler = setTimeout(lightDrawer, nextLightOff);
+
+
 		ball = setInterval(function () {
 			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
 				clearInterval(ball);
 				clearInterval(bar);
+				clearTimeout(lightHandler);
 				// 1단계 클리어 처리
 				// 스토리 진행 후
 				// 점수창 출력
@@ -497,6 +508,7 @@ function init_stage() {
 					init_stage();
 				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
+				clearTimeout(lightHandler);
 				clearInterval(ball);
 				clearInterval(bar);
 				setTimeout(function () {
@@ -668,7 +680,6 @@ function drawBlocks() {
 			if(block[i][j] > 0) {
 				cheese_block = new Image();
 				cheese_block.src = cheese_imgs[block[i][j] - 1];
-				console.log(cheese_block.src);
 				frame.drawImage(cheese_block, blockX+j*blockWidth, blockY+i*blockHeight, blockWidth, blockHeight);
 			}
 		}
@@ -839,4 +850,24 @@ function getScore() {
 	}
 
 	return sum;	
+}
+
+// stage 1 light on off 
+function lightDrawer() {
+	if(!pauseFlag) {
+		$("#light-off").show();
+		// 여기다가 불 꺼질 때 시나리오적 요소 넣으시면 될거 같습니다.
+		// 구현은 기본적으로 스테이지에 대사 나오는 div를 만들어 놓으시고
+		// 이벤트 발생할 때마다 안의 텍스트를 바꾸시는게 좋을 거 같습니다. 그 글자가 한글자씩 순차적으로 나오게 잘 하셨던데
+		// 그걸 여기다가 발생시키면 될 거 같습니다.
+
+
+		setTimeout(function () {
+			$("#light-off").hide();
+		}, 500);
+
+		nextLightOff = Math.floor(Math.random() * 3000) + 5000;
+	}
+
+	lightHandler = setTimeout(lightDrawer, nextLightOff);
 }
