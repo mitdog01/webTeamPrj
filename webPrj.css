@@ -470,6 +470,187 @@ canvas {
 	background-color: #E9AB20;
 }
 
+/************************* STAGE 1 관련 ************************/
+
+#animation-image1 {
+	position: absolute;
+	width: 610px;
+	height: 360px;
+	left: 150px;
+	top: 90px;
+	background: white;
+
+}
+#slideshow-container1 {
+	width: 910px;
+	height: 900px;
+	background-image: url('brickBackground.jpg');
+	position: relative;
+	left: 256px;
+	right: 256px;
+	display: none;
+}
+
+#scenario-image1 {
+	position: absolute;
+    width: 610px;
+    height: 360px;
+    /*object-fit: cover; /* 컨테이너에 맞춰 이미지 조정 */
+    border: 3px solid #333;
+    margin-bottom: 10px;
+
+
+}
+
+
+#scenario-description1 {
+	text-align: center;
+	left: 150px;
+	position: absolute;
+	top: 530px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    width: 610px; /* 이미지와 같은 너비 */
+    height: 100px; /* 적당한 높이 설정 */
+    background-color: #f0f0f0; /* 배경색 설정 */
+    resize: none; /* 크기 조절 기능 제거 */
+    padding: 10px; /* 내부 여백 추가 */
+    box-sizing: border-box; /* 패딩을 포함한 너비 설정 */
+
+}
+
+/************************* STAGE 2 관련 ************************/
+
+#animation-image2 {
+	position: absolute;
+	width: 610px;
+	height: 360px;
+	left: 150px;
+	top: 90px;
+	background: white;
+
+}
+#slideshow-container2 {
+	width: 910px;
+	height: 900px;
+	background-image: url('brickBackground.jpg');
+	position: relative;
+	left: 256px;
+	right: 256px;
+	display: none;
+}
+
+#scenario-image2 {
+	position: absolute;
+    width: 610px;
+    height: 360px;
+    /*object-fit: cover; /* 컨테이너에 맞춰 이미지 조정 */
+    border: 3px solid #333;
+    margin-bottom: 10px;
+
+
+}
+
+
+#scenario-description2 {
+	text-align: center;
+	left: 150px;
+	position: absolute;
+	top: 530px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    width: 610px; /* 이미지와 같은 너비 */
+    height: 100px; /* 적당한 높이 설정 */
+    background-color: #f0f0f0; /* 배경색 설정 */
+    resize: none; /* 크기 조절 기능 제거 */
+    padding: 10px; /* 내부 여백 추가 */
+    box-sizing: border-box; /* 패딩을 포함한 너비 설정 */
+
+}
+
+
+
+/************************* STAGE 3 관련 ************************/
+
+#animation-image3 {
+	position: absolute;
+	width: 610px;
+	height: 360px;
+	left: 150px;
+	top: 90px;
+	background: white;
+
+}
+#slideshow-container3 {
+	width: 910px;
+	height: 900px;
+	background-image: url('brickBackground.jpg');
+	position: relative;
+	left: 256px;
+	right: 256px;
+	display: none;
+}
+
+#scenario-image3 {
+	position: absolute;
+    width: 610px;
+    height: 360px;
+    /*object-fit: cover; /* 컨테이너에 맞춰 이미지 조정 */
+    border: 3px solid #333;
+    margin-bottom: 10px;
+
+
+}
+
+
+#scenario-description3 {
+	text-align: center;
+	left: 150px;
+	position: absolute;
+	top: 530px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    width: 610px; /* 이미지와 같은 너비 */
+    height: 100px; /* 적당한 높이 설정 */
+    background-color: #f0f0f0; /* 배경색 설정 */
+    resize: none; /* 크기 조절 기능 제거 */
+    padding: 10px; /* 내부 여백 추가 */
+    box-sizing: border-box; /* 패딩을 포함한 너비 설정 */
+
+}
+
+/****************************   스테이지 1 장애물 불 꺼졌다 켜지기 ****************/
+
+#storyContainer {
+    display: flex;
+    align-items: center;
+}
+
+#storyImage {
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin-top: 30px;
+    margin-left: 50px;
+
+}
+
+#storyText{
+	flex-grow: 1;
+	text-align: center;
+	left: 160px;
+	position: absolute;
+	top: 630px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    width: 700px; /* 이미지와 같은 너비 */
+    height: 100px; /* 적당한 높이 설정 */
+    background-color: #f0f0f0; /* 배경색 설정 */
+    resize: none; /* 크기 조절 기능 제거 */
+    padding: 10px; /* 내부 여백 추가 */
+    box-sizing: border-box; /* 패딩을 포함한 너비 설정 */
+}
+
 /******************************************************************/
 
 /************************* Main-Menu related **************************/
