@@ -10,12 +10,6 @@ $(window).on("load", function () {
 
 
 	////////////      MAIN-MENU EVENT        ///////////
-  
-	$('#main-menu-start-btn').click(function () {	// initialize start button
-		$('#main-menu').hide();
-		$('#stage-menu').show();
-	})
-
 	////////////////////////// 이미지 슬라이드쇼 관련 변수 및 함수 ///////////////////////////////
 	const images = [
 	    { src: 'd1.png', description: '화목했던 톰과 제리는 '},
@@ -48,14 +42,6 @@ $(window).on("load", function () {
 		clearInterval(interval);
 		startButton.style.display = 'block';
 		$("#stage-menu").show();
-	});
-
-	$(animation).keydown(function() {
-		$(animation).hide();
-		clearInterval(intervalId);
-		clearInterval(interval);
-		startButton.style.display = 'block';
-		$("#stage-menu").show();		
 	});
 
 	function startSlideshow() {
@@ -119,33 +105,188 @@ $(window).on("load", function () {
 	}, 1000);
 	
 
-	$("#stage1").click(function () {
-		$("#ingame").show();
+	function updateDescriptionStages(description, descriptionElement) {
+	    descriptionElement.textContent = ''; 
+	    let index = 0; 
+	    const interval = setInterval(() => {
+	        descriptionElement.textContent += description[index++]; 
+	        if (index >= description.length) {
+	            clearInterval(interval);
+	        }
+	    }, 100); 
+	}
+
+	///////////////////////////////// 스테이지 1 시작 전 시나리오 ///////////////////////////////////
+	const images1 = [
+	    { src: 'd1.png', description: '화목했던 톰과 제리는 '},
+	    { src: 'd2.png', description: '어느 날 둘이 사소한 일로 다투게 되는데...' },
+	    { src: 'd3.png', description: '톰은 이내 제리에게 복수를 하기 위해서 계획을 세운다...!' },
+	    { src: 'd4.png', description: '제리는 그런줄도 모르고 본인이 좋아하는 치즈를 먹고만 있는데..' },
+	    { src: 'd5.png', description: '과연 톰은 어떤 계획과 계략으로 제리를 잡는데 성공할지 의문이다.' }
+	];
+	let currentIndex1 = -1;
+	let intervalId1;
+	let interval1;
+
+	const imgElement1 = document.getElementById('scenario-image1');
+	const animation1 = document.getElementById('slideshow-container1');
+	const descriptionElement1 = document.getElementById('scenario-description1');
+
+	// 스테이지 1 버튼 이벤트
+	$(stage1).click(function () {
 		$("#stage-menu").hide();
-		stage_level = 1;
+	    $(animation1).show();
+	    startSlideshow1();
 
-		// 스테이지 1 시작 전에 스토리 출력
+	});
 
-
-
-
-
+	// 시나리오 스킵(클릭 혹은 아무 키 누를 시-> 아무 키는 아래 keydown에서)
+	$(animation1).click(function () {
+		$(animation1).hide();
+		clearInterval(intervalId1);
+		clearInterval(interval1);
+		stage_level = 1; 
+		$("#ingame").show();
 		init_stage();
 	});
 
-	$("#stage2").click(function () {
-		$("#ingame").show();
+	function startSlideshow1() {
+	    //startButton.style.display = 'none'; // 시작 버튼 숨김
+	    imgElement1.style.display = 'block';
+	    animation1.style.display = 'block';
+	    descriptionElement1.style.display = 'block';
+	    stageMenu.style.display = 'none';
+	    currentIndex1=0;
+	    imgElement1.src = images1[currentIndex1].src;
+	    updateDescriptionStages(images1[currentIndex1].description, descriptionElement1);
+	    intervalId1 = setInterval(() => {
+	        currentIndex1++;
+	        if (currentIndex1 >= images1.length) {
+	            clearInterval(intervalId1);
+	            currentIndex1 = -1;
+	            imgElement1.style.display= 'none';
+	            descriptionElement1.textContent = ''; 
+	            descriptionElement1.style.display = 'none';
+	            animation1.style.display = 'none';
+
+	            // 슬라이드쇼 종료 후 ingame을 보여줌
+	            stage_level = 1; 
+	            $('#ingame').show();   
+				init_stage();
+	            return;
+	        }
+
+	        imgElement1.src = images1[currentIndex1].src;
+	        updateDescriptionStages(images1[currentIndex1].description, descriptionElement1);
+	    }, 4000); 
+	}
+
+	/////////////////////////////////// 스테이지 2 시작 전 시나리오 ////////////////////////////////////////
+	const images2 = [
+	    { src: 'a1.png', description: '화목했던 톰과 제리는 '},
+	    { src: 'a2.png', description: '어느 날 둘이 사소한 일로 다투게 되는데...' },
+	    { src: 'a3.png', description: '톰은 이내 제리에게 복수를 하기 위해서 계획을 세운다...!' },
+	    { src: 'a4.png', description: '제리는 그런줄도 모르고 본인이 좋아하는 치즈를 먹고만 있는데..' },
+	    { src: 'a5.png', description: '과연 톰은 어떤 계획과 계략으로 제리를 잡는데 성공할지 의문이다.' }
+	];
+	let currentIndex2 = -1;
+	let intervalId2;
+
+	const imgElement2 = document.getElementById('scenario-image2');
+	const animation2 = document.getElementById('slideshow-container2');
+	const descriptionElement2 = document.getElementById('scenario-description2');
+
+	// 스테이지 2 클릭 버튼
+	$(stage2).click(function () {
 		$("#stage-menu").hide();
-		stage_level = 2;
-		init_stage();
+	    $(animation2).show();
+	    startSlideshow2();
+
 	});
 
-	$("#stage3").click(function () {
-		$("#ingame").show();
+	function startSlideshow2() {
+	    imgElement2.style.display = 'block';
+	    animation2.style.display = 'block';
+	    descriptionElement2.style.display = 'block';
+	    stageMenu.style.display = 'none';
+	    currentIndex2=0;
+	    imgElement2.src = images2[currentIndex2].src;
+	    updateDescriptionStages(images2[currentIndex2].description, descriptionElement2);
+	    intervalId2 = setInterval(() => {
+	        currentIndex2++;
+	        if (currentIndex2 >= images2.length) {
+	            clearInterval(intervalId2);
+	            currentIndex2 = -1;
+	            imgElement2.style.display= 'none';
+	            descriptionElement2.textContent = ''; 
+	            descriptionElement2.style.display = 'none';
+	            animation2.style.display = 'none';
+
+	            // 슬라이드쇼 종료 후 ingame를 보여줌
+
+	            stage_level = 2; 
+	            $('#ingame').show();   
+				init_stage();
+	           	return;
+	        }
+
+	        imgElement2.src = images2[currentIndex2].src;
+	        updateDescriptionStages(images2[currentIndex2].description, descriptionElement2);
+	    }, 4000); 
+	}
+
+	////////////////////////////// 스테이지 3 시작 시나리오 /////////////////////////////////////////
+	const images3 = [
+	    { src: 'b1.png', description: '화목했던 톰과 제리는 '},
+	    { src: 'b2.png', description: '어느 날 둘이 사소한 일로 다투게 되는데...' },
+	    { src: 'a3.png', description: '톰은 이내 제리에게 복수를 하기 위해서 계획을 세운다...!' },
+	    { src: 'a4.png', description: '제리는 그런줄도 모르고 본인이 좋아하는 치즈를 먹고만 있는데..' },
+	    { src: 'a5.png', description: '과연 톰은 어떤 계획과 계략으로 제리를 잡는데 성공할지 의문이다.' }
+	];
+	let currentIndex3= -1;
+	let intervalId3;
+
+	const imgElement3 = document.getElementById('scenario-image3');
+	const animation3 = document.getElementById('slideshow-container3');
+	const descriptionElement3 = document.getElementById('scenario-description3');
+
+	// 스테이지 3 버튼 이벤트
+	$(stage3).click(function () {
 		$("#stage-menu").hide();
-		stage_level = 3;
-		init_stage();
+	    $(animation3).show();
+	    startSlideshow3();
+
 	});
+	function startSlideshow3() {
+	    imgElement3.style.display = 'block';
+	    animation3.style.display = 'block';
+	    descriptionElement3.style.display = 'block';
+	    stageMenu.style.display = 'none';
+	    currentIndex3=0;
+	    imgElement3.src = images3[currentIndex3].src;
+	    updateDescriptionStages(images3[currentIndex3].description, descriptionElement3);
+	    intervalId3 = setInterval(() => {
+	        currentIndex3++;
+	        if (currentIndex3 >= images3.length) {
+	            clearInterval(intervalId3);
+	            currentIndex3 = -1;
+	            imgElement3.style.display= 'none';
+	            descriptionElement3.textContent = ''; 
+	            descriptionElement3.style.display = 'none';
+	            animation3.style.display = 'none';
+
+	            // 슬라이드쇼 종료 후 ingame을 보여줌
+
+	            stage_level = 3; 
+	            $('#ingame').show();   
+				init_stage();
+	            return;
+	        }
+
+	        imgElement3.src = images3[currentIndex3].src;
+	        updateDescriptionStages(images3[currentIndex3].description, descriptionElement3);
+	    }, 4000); 
+	}
 
 	$("#stage-menu-mainbtn > img").hover(function () {
 		$(this).attr('src', 'stageMainBtn_hover.png');
@@ -214,9 +355,6 @@ $(window).on("load", function () {
 				keyState[e.keyCode] = false;
 		}
 	});	
-
-	//
-
 
 	// 출구 위치 랜덤 생성은
 	// 초기화 될 때마다 함께 되도록
@@ -328,17 +466,22 @@ $(window).on("load", function () {
 	});
 
 	$('#pause-main-menu').click(function () {
-		// 인게임 종료 -> 메인 메뉴로
-		pauseFlag = false;
-		clearInterval(ball);
-		clearInterval(bar);	
-		clearTimeout(lightHandler);	
+      	// 인게임 종료 -> 메인 메뉴로
+      	pauseFlag = false;
+      	clearInterval(ball);
+      	clearInterval(bar);   
+      	if(stage_level == 1)
+         	clearTimeout(lightHandler);   
+      	else if(stage_level == 3) {
+         	clearTimeout(attackInterval);
+         	attack.y = 600;
+      	}
 
-		catchIngame.style.display = 'none';
+      	catchIngame.style.display = 'none';
 
-		$('#setting-popup').hide();
-		$('#main-menu').show();
-	});
+      	$('#setting-popup').hide();
+      	$('#main-menu').show();
+   });
 
 	////////////////////////////////////////////////////
 
@@ -347,13 +490,15 @@ $(window).on("load", function () {
 	// (게임 점수 출력시 이벤트 처리)
 
 	$("#score-stage-btn").click(function () {
-		$("#ingame").hide();
-		$("#score").hide();
-		pauseFlag = false;
-		clearTimeout(showNextStage);
-		clearTimeout(lightHandler);
-		$("#stage-menu").show();
-	});
+      	$("#ingame").hide();
+      	$("#score").hide();
+     	 pauseFlag = false;
+      	clearTimeout(showNextStage);
+      	if(stage_level == 1)
+         	clearTimeout(lightHandler);
+
+      	$("#stage-menu").show();
+    });
 
 	////////////////////////////////////////////////////
 
@@ -480,7 +625,7 @@ function init_stage() {
 
 
 		ball = setInterval(function () {
-			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
+			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0 || keyState[77]) {
 				clearInterval(ball);
 				clearInterval(bar);
 				clearTimeout(lightHandler);
@@ -508,6 +653,7 @@ function init_stage() {
 					init_stage();
 				}, 5000);
 			} else if(ballY+ballRad >= ingame_canvas_height) {
+				offpause = true;
 				clearTimeout(lightHandler);
 				clearInterval(ball);
 				clearInterval(bar);
@@ -520,57 +666,54 @@ function init_stage() {
 
 		break;
 	case 2:
-		// stage-background change
-		$("#stage-background").css('background-color', '#B5928D');
+    // stage-background change
+    $("#stage-background").css('background-color', '#B5928D');
 
-		ball = setInterval(function () {
-			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
-				clearInterval(ball);
-				clearInterval(bar);
-				// 2단계 클리어 처리
-				curr_time = Number(new Date());
-				clear_time = Math.floor((curr_time - start_time)/1000);
-				$("#score").slideDown('slow');
-				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
-				offpause = true;
+    ball = setInterval(function () {
+        if (holeX <= ballX && ballX <= holeX + holeWidth && ballY - ballRad <= 0 || keyState[77]) {
+            clearInterval(ball);
+            clearInterval(bar);
+            // 2단계 클리어 처리
+            curr_time = Number(new Date());
+            clear_time = Math.floor((curr_time - start_time) / 1000);
+            $("#score").slideDown('slow');
+            $("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
+            offpause = true;
 
+            showNextStage = setTimeout(function () {
+                $("#score").fadeOut('fast');
+                stage_level = 3;
+                init_stage();
+            }, 5000);
+        } else if (ballY + ballRad >= ingame_canvas_height) {
+            clearInterval(ball);
+            clearInterval(bar);
+            setTimeout(function () {
+                init_stage();
+            }, 1000);
+        }
+        draw();
+    }, frameRate);
 
-
-
-
-
-
-
-
-				showNextStage = setTimeout(function () {
-					$("#score").fadeOut('fast');
-					stage_level = 3;
-					init_stage();
-				}, 5000);
-			} else if(ballY+ballRad >= ingame_canvas_height) {
-				clearInterval(ball);
-				clearInterval(bar);
-				setTimeout(function () {
-					init_stage();
-				}, 1000);		
-			}
-			draw();
-		}, frameRate);
-		break;
+    break;
 	case 3:
-		// stage-background change
-		$("#stage-background").css('background-color', '#ADADAD');
+        // stage-background change
+      $("#stage-background").css('background-color', '#ADADAD');
 
-		ball = setInterval(function () {
-			if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0) {
-				clearInterval(ball);
-				clearInterval(bar);
-				// 3단계 클리어 처리
-				curr_time = Number(new Date());
-				clear_time = Math.floor((curr_time - start_time)/1000);
-				$("#score").slideDown('slow');
-				$("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
-				offpause = true;
+      // player HP reset
+      playerHP = 5;
+
+      ball = setInterval(function () {
+         if(holeX <= ballX && ballX <= holeX + holeWidth && ballY-ballRad <= 0 || keyState[77]) {
+            clearInterval(ball);
+            clearInterval(bar);
+            clearTimeout(attackInterval);
+            // 3단계 클리어 처리
+            curr_time = Number(new Date());
+            clear_time = Math.floor((curr_time - start_time)/1000);
+            $("#score").slideDown('slow');
+            $("#score-result").html(`clear time : ${clear_time} sec<br><br>number of cheese: ${getScore()}`);
+            offpause = true;
 
 
 
@@ -578,34 +721,52 @@ function init_stage() {
 
 
 
-				showNextStage = setTimeout(function () {
-					// stage_level = 1;
-					$("#score").fadeOut('fast');
-					$("#ingame").hide();
-					$("#stage-menu").show();
-				}, 5000);
-			} else if(ballY+ballRad >= ingame_canvas_height) {
-				clearInterval(ball);
-				clearInterval(bar);
-				setTimeout(function () {
-					init_stage();
-				}, 1000);
-			}
-			draw();
-		}, frameRate);
-		break;
-	}
+            showNextStage = setTimeout(function () {
+               // stage_level = 1;
+               $("#score").fadeOut('fast');
+               $("#ingame").hide();
+               $("#stage-menu").show();
+            }, 5000);
+         } else if(ballY+ballRad >= ingame_canvas_height || playerHP <= 0) {
+            clearInterval(ball);
+            clearInterval(bar);
+            clearTimeout(attackInterval);
+            attack.y = 600;
+            setTimeout(function () {
+               init_stage();
+            }, 1000);
+         }
+         draw();
+      }, frameRate);
+      
+      // Initialize Tom's attacks
+      initAttacks();
+      break;
+
+   }
+
 
 }
 
 // 프레임을 업데이트하는 함수
 function draw() {
-	if(!pauseFlag) {
-		frame.clearRect(0, 0, ingame_canvas_width, ingame_canvas_height);
-		drawBall();
-		drawBar();
-		drawBlocks();
-	}
+    if(!pauseFlag) {
+        frame.clearRect(0, 0, ingame_canvas_width, ingame_canvas_height);
+        drawBall();
+        drawBar();
+        drawBlocks();
+
+        if (stage_level === 2) {
+            drawHand();
+            moveHand();
+            checkCollisionWithHand();
+            handleBallCollisionWithHand();
+        } else if(stage_level == 3) {
+            drawAttacks();
+            checkAttackCollision();
+            drawHP();
+        }
+    }
 }
 
 // 바(bar) 계속 그리는 함수
@@ -852,22 +1013,206 @@ function getScore() {
 	return sum;	
 }
 
+///////////////////////// stage 1 light on off ////////////////////////////////////////
 // stage 1 light on off 
 function lightDrawer() {
 	if(!pauseFlag) {
 		$("#light-off").show();
-		// 여기다가 불 꺼질 때 시나리오적 요소 넣으시면 될거 같습니다.
-		// 구현은 기본적으로 스테이지에 대사 나오는 div를 만들어 놓으시고
-		// 이벤트 발생할 때마다 안의 텍스트를 바꾸시는게 좋을 거 같습니다. 그 글자가 한글자씩 순차적으로 나오게 잘 하셨던데
-		// 그걸 여기다가 발생시키면 될 거 같습니다.
 
+     
+        $("#storyText").html('');
+        // 타이핑 효과 시작
+        story_index = 0;
+        typeWriter();
 
-		setTimeout(function () {
-			$("#light-off").hide();
-		}, 500);
+        setTimeout(function () {
+            $("#light-off").hide();
+        }, 500);
 
 		nextLightOff = Math.floor(Math.random() * 3000) + 5000;
 	}
 
 	lightHandler = setTimeout(lightDrawer, nextLightOff);
+}
+
+var story_index;
+function typeWriter() {
+	var storyText = "앞이 보이지 않을 것이다 제리 크하하하";
+    if (story_index < storyText.length) {
+        $("#storyText").html($("#storyText").html() + storyText.charAt(story_index));
+        story_index++;
+        setTimeout(typeWriter, 50); 
+    } else {  
+	    setTimeout(function() {
+	        $("#storyText").html('');
+	    }, 1000); 
+	}
+}
+
+
+////////////////////////////// stage 2 code //////////////////////////////////////////
+let tomHand = new Image();
+tomHand.src = 'tomshead.png'; // replace with the actual path to your Tom's hand image
+let handY = (ingame_canvas_height - 20) / 2;
+let handX = 50; // Horizontal position of Tom's hand
+let handDirection = 1; // Direction of Tom's hand movement (1: right, -1: left)
+let handBlocked = false; // Flag to indicate whether the hand is blocked
+let ballVelX = 3;
+
+function drawHand() {
+    frame.drawImage(tomHand, handX, handY, 50, 40); // Adjust size and position as needed
+}
+
+function moveHand() {
+    // Move Tom's hand horizontally
+    if (!handBlocked) {
+        handX += handDirection * 2; // Adjust the movement speed as needed
+    }
+
+    // Check if the hand is out of frame
+    if (handX < 0) {
+        handX = 0;
+        handDirection = 1; // Change direction to right
+    } else if (handX > ingame_canvas_width - 50) {
+        handX = ingame_canvas_width - 50;
+        handDirection = -1; // Change direction to left
+    }
+
+    // Check collision with the ball
+    if (checkCollisionWithHand()) {
+        // Handle ball collision with Tom's hand
+        handleBallCollisionWithHand();
+
+        // Set the hand as blocked
+        handBlocked = true;
+
+        // Reset the hand's position after a short delay
+        setTimeout(function () {
+            handBlocked = false;
+            handX = Math.floor((ingame_canvas_width - 50) / 2);
+            handDirection = 1; // Reset direction to right
+        }, 500);
+    }
+
+    // Draw the hand
+    drawHand();
+}
+// Check for collisions
+function checkCollisions() {
+  // Check for collisions with the walls
+  if (ball.x < 0 || ball.x + ball.width > canvas.width) {
+    ballVelX = -ballVelX;
+  }
+  if (ball.y < 0 || ball.y + ball.height > canvas.height) {
+    ballVelY = -ballVelY;
+  }
+
+  // Check for collisions with the tomHand object
+  if (
+    ball.x < tomHand.x + tomHand.width &&
+    ball.x + ball.width > tomHand.x &&
+    ball.y < tomHand.y + tomHand.height &&
+    ball.y + ball.height > tomHand.y
+  ) {
+    // Reverse the ball's horizontal velocity
+    ballVelX = -ballVelX;
+  }
+}
+function checkCollisionWithHand() {
+    // Check if the ball collides with Tom's hand
+    return (
+        ballX + ballRad >= handX &&
+        ballX - ballRad <= handX + 50 &&
+        ballY + ballRad >= handY &&
+        ballY - ballRad <= handY + 40
+    );
+}
+
+// Initialize ball direction
+let ballDirectionX = 1; // Initial horizontal movement
+let ballDirectionY = 1; // Initial vertical movement
+
+function handleBallCollisionWithHand() {
+    if (checkCollisionWithHand()) {
+        // Reverse the ball's direction on the Y-axis
+        ballDirectionY *= -1;
+
+        // Calculate the new ball position
+        ballX += ballDirectionX;
+        ballY += ballDirectionY;
+    } else {
+        // Reverse the ball's direction on the X-axis
+        ballX -= ballDirectionX;
+
+        // Reverse the ball's direction on the Y-axis
+        ballDirectionY *= -1;
+
+        // Calculate the new ball position
+        ballX += ballDirectionX;
+        ballY += ballDirectionY;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////	
+
+// Stage 3: Tom's attack (add HP element, need to avoid)
+let playerHP = 5;
+let attacks = [];
+const attackWidth = 20;
+const attackHeight = 20;
+let attackInterval;
+var attack = { x: 100, y: 0, width: attackWidth, height: attackHeight, speedY: 2 };
+
+function initAttacks() {
+  // Initialize Tom's attacks
+  // Attack every 2 seconds
+   
+  attackInterval = setTimeout(initAttacks, 1513);
+}
+
+function drawAttacks() {
+  // Draw attacks
+  frame.fillStyle = 'red';
+  frame.fillRect(attack.x, attack.y, attack.width, attack.height);
+
+  // Update attacks
+  updateAttacks();
+}
+
+function updateAttacks() {
+    attack.y += attack.speedY;
+    if (attack.y > ingame_canvas_height) {
+      attack.y = 0; // Reset attack position when it goes beyond canvas height
+      attack.x = Math.random() * (ingame_canvas_width - attackWidth); // Randomize attack position
+    }
+}
+
+
+//    frame.fillRect(barX, barY, barWidth, barHeight);
+//   frame.drawImage(bar_jerry, barX+25, barY+10, 50, 50);
+
+
+function checkAttackCollision() {
+    if (
+      barX + barWidth - 25 >= attack.x && // Check if the bar collides with the attack
+      barX + 25 <= attack.x + attack.width &&
+      ingame_canvas_height - 40 <= attack.y + attack.height &&
+      ingame_canvas_height >= attack.y
+    ) {
+      // Decrease player's HP
+      playerHP--;
+      // Reset the attack position
+      attack.y = 0;
+      attack.x = Math.floor(Math.random() * (ingame_canvas_width - attackWidth)); // Randomize attack position
+
+      clearTimeout(attackInterval);
+      attackInterval = setTimeout(initAttacks, 1513);
+    }
+}
+
+// Draw HP element
+function drawHP() {
+  frame.font = '16px Arial';
+  frame.fillStyle = 'black';
+  frame.fillText('HP: ' + playerHP, 8, 20);
 }
