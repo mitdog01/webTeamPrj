@@ -9,12 +9,23 @@ audio.autoplay = true;
 $(window).on("load", function () {
 	////////////      FRONT-PAGE        ///////////
 	setInterval(function () {
-		if($("#main-menu-img  img").attr('src') === 'main-menu/main-img-black.png')
-			$("#main-menu-img  img").attr('src','main-menu/main-img-orange.png')
+		if($("#main-menu-img img").attr('src') === 'main-menu/main-img-black.png')
+			$("#main-menu-img img").attr('src','main-menu/main-img-orange.png')
 		else
-			$("#main-menu-img  img").attr('src','main-menu/main-img-black.png')
+			$("#main-menu-img img").attr('src','main-menu/main-img-black.png')
 	}, 1000);
 
+	$("#main-menu-start-btn img").hover(function () {
+		$(this).attr('src', 'main-menu/main-start-hover.png');
+	}, function () {
+		$(this).attr('src', 'main-menu/main-start.png');
+	});
+
+	$("#main-menu-setting-btn img").hover(function () {
+		$(this).attr('src', 'main-menu/main-setting-hover.png');
+	}, function () {
+		$(this).attr('src', 'main-menu/main-setting.png');
+	});
 
 	////////////      MAIN-MENU EVENT        ///////////
 	////////////////////////// 이미지 슬라이드쇼 관련 변수 및 함수 ///////////////////////////////
