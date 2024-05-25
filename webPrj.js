@@ -394,13 +394,18 @@ $(window).on("load", function () {
 
 	if(audio.paused) {	// if music is not auto-played mute button should be active
 		$("#mute-input").attr("checked", true);
+		$("#mute-btn img").attr('src','setting-page/mute-on.png')
+	} else {
+		$("#mute-btn img").attr('src','setting-page/mute-off.png')
 	}
 
 	$('#mute-btn').click(function () {	// mute-btn listner
 		if($('#mute-input').is(':checked')) {
 			audio.play();
+			$("#mute-btn img").attr('src','setting-page/mute-off.png')
 		} else {
 			audio.pause();
+			$("#mute-btn img").attr('src','setting-page/mute-on.png')
 		}
 	});
   
