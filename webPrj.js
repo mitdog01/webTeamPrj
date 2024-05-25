@@ -1,4 +1,4 @@
-let ballColor = "#1111ff";
+let ballColor = "#ffffff";
 let bouncingBallColor = ballColor;
 let backgroundMusic = "music1.mp3";
 let audio = new Audio(backgroundMusic);
@@ -381,17 +381,7 @@ $(window).on("load", function () {
 
 	//////////      GAME SETTING EVENT       ///////////
 
-	if(backgroundMusic === "music1.mp3") {  // code that initialize music button
-		$("#music1").attr("checked", true)
-		$("#music1~label img").attr('src','setting-page/music1-clicked.png');
-		$("#music2~label img").attr('src','setting-page/music2.png');
-	} else if (backgroundMusic === "music2.mp3") {
-		$("#music2").attr("checked", true);
-		$("#music2~label img").attr('src','setting-page/music2-clicked.png');
-		$("#music1~label img").attr('src','setting-page/music1.png');
-	}
-
-	$('#colorpicker').attr("value", ballColor);	// initialize with given color
+	initSetting();
 	$('#colorpicker').on("input", function (e) {
 		bouncingBallColor = e.target.value;
 	})
@@ -449,7 +439,6 @@ $(window).on("load", function () {
 			$("#music2~label img").attr('src','setting-page/music2-clicked.png');
 			$("#music1~label img").attr('src','setting-page/music1.png');
 		}
-		// alert(backgroundMusic); // for debugging (should be deleted)
 
 		audio.setAttribute("src", backgroundMusic);
 		audio.load();
@@ -459,11 +448,11 @@ $(window).on("load", function () {
 		}
 
 		ballColor = document.getElementById("colorpicker").value;
-		alert(ballColor);   // for debugging
 	});
 
 	// 메인으로 가거나 인게임으로 돌아가는 button
 	$('#go-to-main-menu-btn').click(function () {
+		initSetting();
 		$('#setting-page').hide();
 		clearInterval(settingball);
 		if(catchIngame.style.display != 'block') {
@@ -511,7 +500,6 @@ $(window).on("load", function () {
 	///////////       setting popup          ///////////
 
 	$('#pause-setting').click(function () {
-		// alert('called');
 		// 일시정지 처리
 		pasueFlag = true;
 		pause_start = Number(new Date());
@@ -1274,4 +1262,19 @@ function drawHP() {
   frame.font = '16px Arial';
   frame.fillStyle = 'black';
   frame.fillText('HP: ' + playerHP, 8, 20);
+}
+
+function initSetting() {
+	if(backgroundMusic === "music1.mp3") {  // code that initialize music button
+		$("#music1").attr("checked", true)
+		$("#music1~label img").attr('src','setting-page/music1-clicked.png');
+		$("#music2~label img").attr('src','setting-page/music2.png');
+	} else if (backgroundMusic === "music2.mp3") {
+		$("#music2").attr("checked", true);
+		$("#music2~label img").attr('src','setting-page/music2-clicked.png');
+		$("#music1~label img").attr('src','setting-page/music1.png');
+	}
+
+	document.getElementById("colorpicker").value = ballColor;
+	bouncingBallColor = ballColor;
 }
