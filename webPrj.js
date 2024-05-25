@@ -383,8 +383,12 @@ $(window).on("load", function () {
 
 	if(backgroundMusic === "music1.mp3") {  // code that initialize music button
 		$("#music1").attr("checked", true)
+		$("#music1~label img").attr('src','setting-page/music1-clicked.png');
+		$("#music2~label img").attr('src','setting-page/music2.png');
 	} else if (backgroundMusic === "music2.mp3") {
 		$("#music2").attr("checked", true);
+		$("#music2~label img").attr('src','setting-page/music2-clicked.png');
+		$("#music1~label img").attr('src','setting-page/music1.png');
 	}
 
 	$('#colorpicker').attr("value", ballColor);	// initialize with given color
@@ -408,19 +412,51 @@ $(window).on("load", function () {
 			$("#mute-btn img").attr('src','setting-page/mute-on.png')
 		}
 	});
-  
+
+	$('#music1~label img').click(function () {	// mute-btn listner
+		setTimeout(function () {
+			if($('#music2').is(':checked')) {
+				$("#music1~label img").attr('src','setting-page/music1.png');
+				$("#music2~label img").attr('src','setting-page/music2-clicked.png');
+			} else {
+				$("#music1~label img").attr('src','setting-page/music1-clicked.png');
+				$("#music2~label img").attr('src','setting-page/music2.png');
+			}
+		});
+	});
+
+	$('#music2~label img').click(function () {	// mute-btn listner
+		setTimeout(function () {
+			if($('#music2').is(':checked')) {
+				$("#music1~label img").attr('src','setting-page/music1.png');
+				$("#music2~label img").attr('src','setting-page/music2-clicked.png');
+			} else {
+				$("#music1~label img").attr('src','setting-page/music1-clicked.png');
+				$("#music2~label img").attr('src','setting-page/music2.png');
+			}
+		});
+	});
+
 	$('#colorpicker').attr("value", ballColor);	// initialize with given color
 
 	$('#apply-btn').click(function () {  // Applying music setting(Except muting) & ballColor Setting
 		if ($('#music1').is(':checked')) {
 			backgroundMusic = "music1.mp3"
+			$("#music1~label img").attr('src','setting-page/music1-clicked.png');
+			$("#music2~label img").attr('src','setting-page/music2.png');
 		} else if ($('#music2').is(':checked')) {
 			backgroundMusic = "music2.mp3";
+			$("#music2~label img").attr('src','setting-page/music2-clicked.png');
+			$("#music1~label img").attr('src','setting-page/music1.png');
 		}
-		alert(backgroundMusic); // for debugging (should be deleted)
+		// alert(backgroundMusic); // for debugging (should be deleted)
 
 		audio.setAttribute("src", backgroundMusic);
 		audio.load();
+
+		if($('#mute-input').is(':checked')) {
+			audio.pause();
+		}
 
 		ballColor = document.getElementById("colorpicker").value;
 		alert(ballColor);   // for debugging
