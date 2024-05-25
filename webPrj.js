@@ -429,6 +429,18 @@ $(window).on("load", function () {
 
 	$('#colorpicker').attr("value", ballColor);	// initialize with given color
 
+	$("#apply-btn").hover(function () {
+		$(this).attr('src', 'setting-page/apply-hover.png');
+	}, function () {
+		$(this).attr('src', 'setting-page/apply.png');
+	});
+
+	$("#go-to-main-menu-btn").hover(function () {
+		$(this).attr('src', 'setting-page/main-hover.png');
+	}, function () {
+		$(this).attr('src', 'setting-page/main.png');
+	});
+
 	$('#apply-btn').click(function () {  // Applying music setting(Except muting) & ballColor Setting
 		if ($('#music1').is(':checked')) {
 			backgroundMusic = "music1.mp3"
