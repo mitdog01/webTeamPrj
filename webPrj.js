@@ -1233,6 +1233,8 @@ const attackWidth = 20;
 const attackHeight = 20;
 let attackInterval;
 var attack = { x: 100, y: 0, width: attackWidth, height: attackHeight, speedY: 2 };
+var tomattackImg = new Image();
+tomattackImg.src = 'tomattack.png';
 
 function initAttacks() {
   // Initialize Tom's attacks
@@ -1243,8 +1245,7 @@ function initAttacks() {
 
 function drawAttacks() {
   // Draw attacks
-  frame.fillStyle = 'red';
-  frame.fillRect(attack.x, attack.y, attack.width, attack.height);
+  frame.drawImage(tomattackImg, attack.x, attack.y, attack.width, attack.height);
 
   // Update attacks
   updateAttacks();
