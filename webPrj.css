@@ -81,19 +81,19 @@ input { display: none;}
 	width: 400px;
 	top: 150px;
 	left: 515px;
-	background-color: gray;
 	z-index: 1;
 	border-radius: 15px;
 	display: none;
+	background-image: url("setting-pop-up/cheese.png");
 }
 
 #pause-label {
 	position: absolute;
+	z-index: 3;
 	width: 170px;
 	height: 70px;
 	left: 115px;
 	top: 90px;
-	background-color: #00FFFF;
 }
 
 #pause-main-menu {
@@ -102,7 +102,6 @@ input { display: none;}
 	bottom : 90px;
 	width: 200px;
 	height: 80px;
-	background-color: #00FFFF;
 }
 
 #pause-setting {
@@ -111,7 +110,6 @@ input { display: none;}
 	bottom : 210px;
 	width: 200px;
 	height: 80px;
-	background-color: #00FFFF;
 }
 
 #setting-label {
