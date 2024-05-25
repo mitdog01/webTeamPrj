@@ -146,9 +146,10 @@ $(window).on("load", function () {
 		clearInterval(intervalId1);
 		clearInterval(interval1);
 		stage_level = 1; 
-		$("#ingame").show();
+	    $('#ingame').show();   
 		init_stage();
 	});
+
 
 	function startSlideshow1() {
 	    //startButton.style.display = 'none'; // 시작 버튼 숨김
@@ -191,6 +192,7 @@ $(window).on("load", function () {
 	];
 	let currentIndex2 = -1;
 	let intervalId2;
+	let interval2;
 
 	const imgElement2 = document.getElementById('scenario-image2');
 	const animation2 = document.getElementById('slideshow-container2');
@@ -203,6 +205,17 @@ $(window).on("load", function () {
 	    startSlideshow2();
 
 	});
+
+	// 시나리오 스킵(클릭 혹은 아무 키 누를 시-> 아무 키는 아래 keydown에서)
+	$(animation2).click(function () {
+		$(animation2).hide();
+		clearInterval(intervalId2);
+		clearInterval(interval2);
+		stage_level = 2; 
+	    $('#ingame').show();   
+		init_stage();
+	});
+
 
 	function startSlideshow2() {
 	    imgElement2.style.display = 'block';
@@ -245,6 +258,7 @@ $(window).on("load", function () {
 	];
 	let currentIndex3= -1;
 	let intervalId3;
+	let interval3;
 
 	const imgElement3 = document.getElementById('scenario-image3');
 	const animation3 = document.getElementById('slideshow-container3');
@@ -257,6 +271,17 @@ $(window).on("load", function () {
 	    startSlideshow3();
 
 	});
+
+	// 시나리오 스킵(클릭 혹은 아무 키 누를 시-> 아무 키는 아래 keydown에서)
+	$(animation3).click(function () {
+		$(animation3).hide();
+		clearInterval(intervalId3);
+		clearInterval(interval3);
+		stage_level = 3; 
+	    $('#ingame').show();   
+		init_stage();
+	});
+
 	function startSlideshow3() {
 	    imgElement3.style.display = 'block';
 	    animation3.style.display = 'block';
@@ -347,6 +372,27 @@ $(window).on("load", function () {
 			clearInterval(interval);
 			startButton.style.display = 'block';
 			$("#stage-menu").show();
+		} else if(animation1.style.display == 'block') {
+			$(animation1).hide();
+			clearInterval(intervalId1);
+			clearInterval(interval1);
+			stage_level = 1; 
+		    $('#ingame').show();   
+			init_stage();
+		} else if(animation2.style.display == 'block') {
+			$(animation2).hide();
+			clearInterval(intervalId2);
+			clearInterval(interval2);
+			stage_level = 2; 
+		    $('#ingame').show();   
+			init_stage();
+		} else if(animation3.style.display == 'block') {
+			$(animation3).hide();
+			clearInterval(intervalId3);
+			clearInterval(interval3);
+			stage_level = 3; 
+		    $('#ingame').show();   
+			init_stage();
 		}
 	});
 	$(document).keyup(function (e) {
@@ -686,6 +732,7 @@ function init_stage() {
                 init_stage();
             }, 5000);
         } else if (ballY + ballRad >= ingame_canvas_height) {
+        	offpause = true;
             clearInterval(ball);
             clearInterval(bar);
             setTimeout(function () {
@@ -728,6 +775,7 @@ function init_stage() {
                $("#stage-menu").show();
             }, 5000);
          } else if(ballY+ballRad >= ingame_canvas_height || playerHP <= 0) {
+         	offpause = true;
             clearInterval(ball);
             clearInterval(bar);
             clearTimeout(attackInterval);
