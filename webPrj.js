@@ -7,6 +7,13 @@ audio.loop = true;
 audio.autoplay = true;
 
 $(window).on("load", function () {
+	////////////      FRONT-PAGE        ///////////
+	setInterval(function () {
+		if($("#main-menu-img  img").attr('src') === 'main-menu/main-img-black.png')
+			$("#main-menu-img  img").attr('src','main-menu/main-img-orange.png')
+		else
+			$("#main-menu-img  img").attr('src','main-menu/main-img-black.png')
+	}, 1000);
 
 
 	////////////      MAIN-MENU EVENT        ///////////
