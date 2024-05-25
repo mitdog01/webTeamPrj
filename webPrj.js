@@ -513,6 +513,18 @@ $(window).on("load", function () {
 
 	///////////       setting popup          ///////////
 
+	$("#pause-setting").hover(function () {
+		$(this).attr('src', 'setting-pop-up/setting-hover.png');
+	}, function () {
+		$(this).attr('src', "setting-pop-up/setting.png");
+	});
+
+	$("#pause-main-menu").hover(function () {
+		$(this).attr('src', 'setting-pop-up/main-hover.png');
+	}, function () {
+		$(this).attr('src', "setting-pop-up/main.png");
+	});
+
 	$('#pause-setting').click(function () {
 		// 일시정지 처리
 		pasueFlag = true;
