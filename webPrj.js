@@ -460,6 +460,8 @@ $(window).on("load", function () {
 		}
 
 		ballColor = document.getElementById("colorpicker").value;
+
+		alert("새로운 세팅이 적용 되었습니다.");
 	});
 
 	// 메인으로 가거나 인게임으로 돌아가는 button
