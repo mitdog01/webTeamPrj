@@ -640,6 +640,7 @@ function barController() {
 // stage info
 var stage_level = 1;
 var showNextStage;
+var clearSound = new Audio('clearSound.wav');
 
 // pause info
 var pauseFlag = true;
@@ -680,6 +681,10 @@ var blockY = 50;
 var blockWidth = 90;
 var blockHeight = 40;
 var cheese_block = new Image();
+var brickCrashSound1 = new Audio('brickCrashSound.wav');
+var brickCrashSound2 = new Audio('brickCrashSound.wav');
+var brickCrashSound3 = new Audio('brickCrashSound.wav');
+
 
 // hole info
 var holeX;
@@ -697,6 +702,8 @@ var score_cum;
 // stage 1 light(on&off) info
 var lightDrawer;
 var nextLightOff = 5000;
+var lightOffSound = new Audio('lightoffSound.wav');
+lightOffSound.volume = 0.3;
 
 // 상태 초기화 : 스테이지 바뀔 때, 재시작할 때, 등등..
 function init_stage() {
@@ -752,6 +759,7 @@ function init_stage() {
 				// 스토리 진행 후
 				// 점수창 출력
 				// 점수창
+				clearSound.play();
 				curr_time = Number(new Date());
 				clear_time = Math.floor((curr_time - start_time)/1000) - pause_cum;
 				$("#score").slideDown('slow');
@@ -793,6 +801,7 @@ function init_stage() {
             clearInterval(ball);
             clearInterval(bar);
             // 2단계 클리어 처리
+            clearSound.play();
             curr_time = Number(new Date());
             clear_time = Math.floor((curr_time - start_time) / 1000);
             $("#score").slideDown('slow');
@@ -829,6 +838,7 @@ function init_stage() {
             clearInterval(bar);
             clearTimeout(attackInterval);
             // 3단계 클리어 처리
+            clearSound.play();
             curr_time = Number(new Date());
             clear_time = Math.floor((curr_time - start_time)/1000);
             $("#score").slideDown('slow');
@@ -881,7 +891,6 @@ function draw() {
             drawHand();
             moveHand();
             checkCollisionWithHand();
-            handleBallCollisionWithHand();
         } else if(stage_level == 3) {
             drawAttacks();
             checkAttackCollision();
@@ -937,14 +946,17 @@ function drawBall() {
 	if(check_crash_blocks_co()) {
 		dy *= -1;
 		dx *= -1;
+		brickCrashSound1.play();
 	}
 	else {
 		// block 상 하
 		if(check_crash_blocks_tb()) {
 			dy *= -1;
+			brickCrashSound2.play();
 		}
 		if(check_crash_blocks_lr()) {
 			dx *= -1;
+			brickCrashSound3.play();
 		}
  	}
 
@@ -1138,6 +1150,7 @@ function getScore() {
 // stage 1 light on off 
 function lightDrawer() {
 	if(!pauseFlag) {
+		lightOffSound.play();
 		$("#light-off").show();
 
      
@@ -1210,7 +1223,6 @@ function moveHand() {
         // Reset the hand's position after a short delay
         setTimeout(function () {
             handBlocked = false;
-            handX = Math.floor((ingame_canvas_width - 50) / 2);
             handDirection = 1; // Reset direction to right
         }, 500);
     }
@@ -1218,27 +1230,7 @@ function moveHand() {
     // Draw the hand
     drawHand();
 }
-// Check for collisions
-function checkCollisions() {
-  // Check for collisions with the walls
-  if (ball.x < 0 || ball.x + ball.width > canvas.width) {
-    ballVelX = -ballVelX;
-  }
-  if (ball.y < 0 || ball.y + ball.height > canvas.height) {
-    ballVelY = -ballVelY;
-  }
 
-  // Check for collisions with the tomHand object
-  if (
-    ball.x < tomHand.x + tomHand.width &&
-    ball.x + ball.width > tomHand.x &&
-    ball.y < tomHand.y + tomHand.height &&
-    ball.y + ball.height > tomHand.y
-  ) {
-    // Reverse the ball's horizontal velocity
-    ballVelX = -ballVelX;
-  }
-}
 function checkCollisionWithHand() {
     // Check if the ball collides with Tom's hand
     return (
@@ -1249,33 +1241,16 @@ function checkCollisionWithHand() {
     );
 }
 
-// Initialize ball direction
-let ballDirectionX = 1; // Initial horizontal movement
-let ballDirectionY = 1; // Initial vertical movement
-
 function handleBallCollisionWithHand() {
-    if (checkCollisionWithHand()) {
-        // Reverse the ball's direction on the Y-axis
-        ballDirectionY *= -1;
+    // Reverse the ball's direction on the Y-axis
+    dy *= -1;
 
-        // Calculate the new ball position
-        ballX += ballDirectionX;
-        ballY += ballDirectionY;
-    } else {
-        // Reverse the ball's direction on the X-axis
-        ballX -= ballDirectionX;
-
-        // Reverse the ball's direction on the Y-axis
-        ballDirectionY *= -1;
-
-        // Calculate the new ball position
-        ballX += ballDirectionX;
-        ballY += ballDirectionY;
-    }
+    // Calculate the new ball position
+    ballX += dx;
+    ballY += dy*2;
 }
 
 ////////////////////////////////////////////////////////////////////////	
-
 // Stage 3: Tom's attack (add HP element, need to avoid)
 let playerHP = 5;
 let attacks = [];
@@ -1285,6 +1260,7 @@ let attackInterval;
 var attack = { x: 100, y: 0, width: attackWidth, height: attackHeight, speedY: 2 };
 var tomattackImg = new Image();
 tomattackImg.src = 'tomattack.png';
+var attackedSound = new Audio('attackedSound.mp3');
 
 function initAttacks() {
   // Initialize Tom's attacks
@@ -1326,6 +1302,13 @@ function checkAttackCollision() {
       // Reset the attack position
       attack.y = 0;
       attack.x = Math.floor(Math.random() * (ingame_canvas_width - attackWidth)); // Randomize attack position
+      // attacked effect sound
+      attackedSound.currentTime = 1.2;
+      attackedSound.play();
+
+
+
+      // 여기다가 공격 받았을 때의 시나리오 처리 넣어주시면 됩니다.
 
       clearTimeout(attackInterval);
       attackInterval = setTimeout(initAttacks, 1513);
@@ -1334,9 +1317,23 @@ function checkAttackCollision() {
 
 // Draw HP element
 function drawHP() {
-  frame.font = '16px Arial';
-  frame.fillStyle = 'black';
-  frame.fillText('HP: ' + playerHP, 8, 20);
+  // Define style for the HP box
+  let boxWidth = 80;
+  let boxHeight = 30;
+  let padding = 5;
+  let boxX = ingame_canvas_width - boxWidth - padding; // Position from the right edge
+  let boxY = ingame_canvas_height - boxHeight - padding; // Position from the bottom edge
+
+  frame.fillStyle = '#333'; // Background color
+  frame.fillRect(boxX, boxY, boxWidth, boxHeight); // Position and size of the box
+  frame.strokeStyle = 'white'; // Border color
+  frame.lineWidth = 2; // Border width
+  frame.strokeRect(boxX, boxY, boxWidth, boxHeight); // Draw border
+
+  // Define style for the HP text
+  frame.font = 'bold 16px Arial'; // Font size and style
+  frame.fillStyle = 'white'; // Text color
+  frame.fillText('HP: ' + playerHP, boxX + padding, boxY + boxHeight - padding); // Position the text inside the box
 }
 
 function initSetting() {
